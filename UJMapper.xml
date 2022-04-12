@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.tjoeun.mapper.UJMapper">
+	
+	<select id = "login"
+		resultType="String" 
+       	parameterType="com.tjoeun.vo.UJVO">
+       	SELECT uid
+       	FROM ujuser
+       	WHERE uid = #{uid} AND pwd = #{pwd}
+    </select>
+	
+	<select id = "forgot"
+		resultType="String" 
+       	parameterType="com.tjoeun.vo.UJVO">
+       	SELECT uid
+       	FROM ujuser
+       	WHERE uid = #{uid} AND email = #{email}
+    </select>
+    
+    
+	
+	<insert id="insertUser" 
+       parameterType="com.tjoeun.vo.UJVO">
+       INSERT INTO ujuser VALUES(#{uid},#{pwd},#{name},#{phone},#{address},#{root},#{email})
+    </insert>
+    
+    <select id="getUserById" 
+       resultType="com.tjoeun.vo.UJVO" 
+       parameterType="String">
+        SELECT uid, pwd, name, phone, address, root, email
+        FROM ujuser
+        WHERE uid = #{uid}  <!-- #{uid} = ? -->
+    </select>
+    
+    <update id="updateByMap" 
+       parameterType="map">
+       UPDATE ujuser 
+       SET phone=#{phone},
+       pwd = #{pwd}
+       WHERE uid=#{uid}
+    </update>
+    
+    <delete id="deleteUser" parameterType="String">
+       DELETE FROM ujuser WHERE uid=#{uid}
+    </delete>
+    
+    <insert id="addBoard" 
+    	parameterType="com.tjoeun.vo.BoardVO"
+    	useGeneratedKeys = "true" keyProperty="num">
+    	INSERT INTO ujboard VALUES(null, #{title},#{author},#{contents},NOW())
+    </insert>
+    
+    <insert id="addFileInfo"  	parameterType="com.tjoeun.vo.AttachVO">
+    	INSERT INTO ujattach VALUES(null, #{board_num}, #{filename}, #{filesize})
+    	</insert>
+    
+    <select id="boardList"
+    	resultType = "map">
+    	SELECT * FROM ujboard b LEFT OUTER JOIN ujattach a
+    	ON b.num = a.board_num
+    </select>
+    
+    <select id="bdetail"
+    	resultType="map"
+    	parameterType="Integer">
+    	SELECT * FROM ujboard b
+		LEFT OUTER JOIN ujattach a
+		ON b.num=a.board_num
+		WHERE b.num = #{num};
+    </select>
+    
+    <select id="getFilename"
+    	parameterType="Integer"
+    	resultType="String">
+    	SELECT filename FROM ujattach WHERE att_num=#{num}
+    </select>
+    
+    <select id="getBoardByNum" 
+       resultType="com.tjoeun.vo.BoardVO" 
+       parameterType="Integer">
+        SELECT *
+        FROM ujboard
+        WHERE num = #{num}  <!-- #{uid} = ? -->
+    </select>
+    
+    
+    
+     <update id="updateBoard" 
+       	parameterType="com.tjoeun.vo.BoardVO">
+       	UPDATE ujboard SET title=#{title},
+       	contents=#{contents}
+    	WHERE num=#{num}
+    </update>
+    
+    
+    
+    
+    
+    <delete id="deleteFileInfo"
+    	parameterType="Integer">
+    	DELETE FROM ujattach WHERE att_num=#{num}
+    </delete>
+    
+    <delete id="deleteBoard"
+    	parameterType="Integer">
+    	DELETE FROM ujboard WHERE num=#{num}
+    </delete>
+    
+    <!-- 총 게시글 갯수 출력 -->
+	<select id="countBoard" resultType="int">
+		SELECT COUNT(*) FROM ujboard
+	</select>
+
+	<!-- 페이징 처리 후 게시글 조회 -->
+	<select id="selectBoard" resultType="com.tjoeun.vo.BoardVO">
+		
+		SELECT * 
+      FROM (
+         
+         SELECT @rownum:=@rownum+1 rn, A.* 
+            FROM (
+                  SELECT * 
+                  FROM ujBOARD, 
+                  (SELECT @ROWNUM:=0) t
+                  ORDER BY num DESC 
+                  ) A
+            ) B
+           
+  		 WHERE RN BETWEEN #{start} AND #{end}
+		
+	</select>
+	
+	<insert id="reservation" 
+       parameterType="com.tjoeun.vo.UJRVO"
+       useGeneratedKeys = "true" keyProperty="rnum">
+       INSERT INTO ujrt VALUES(null,#{rinfo},#{rp},#{ruid},#{rtime})
+    </insert>
+    
+     <select id="getList" 
+       resultType="com.tjoeun.vo.UJRVO"
+       parameterType="String">
+        SELECT rinfo, SUM(rp) AS rp, rtime
+        FROM ujrt
+        WHERE rinfo = #{rinfo}
+    </select>
+     
+     
+     
+     
+     <select id="reserList2"
+    	resultType = "map">
+    	SELECT * FROM ujrt 
+    </select>
+    
+    
+    
+    <select id="getreservation" 
+       resultType="com.tjoeun.vo.UJRVO" 
+       parameterType="String">
+        SELECT rinfo, rp, rtime
+        FROM UJRT
+       	WHERE rinfo = #{rinfo}
+    </select>
+    
+    <select id="reserList" 
+       resultType="com.tjoeun.vo.UJRVO" 
+       parameterType="String">
+         SELECT rinfo, SUM(rp) AS rp, rtime
+        FROM ujrt
+       WHERE rinfo = #{rinfo}
+       	
+    </select>
+    
+    
+    
+
+</mapper>
