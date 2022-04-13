@@ -21,12 +21,6 @@
 .wrapper{
   width:100%;
 }
-/* .container{
-  width:100%;
-  max-width:500px;
-  margin:0 auto;
-  border:1px solid #e1e1e1;
-} */
 .head{
   width:100%;
   height:50px;
@@ -160,7 +154,6 @@ transform: translateY(-5px) rotate(-135deg);
 </head>
 <body class="kotton-style">
 	<div class="wrapper">
-  <!-- <div class="container"> -->
      <div class="head">
        <div class="slide-open" id="slide-open">
           <span class="burgur" id="burgur">
@@ -180,7 +173,7 @@ transform: translateY(-5px) rotate(-135deg);
            메 뉴 
          </div>
          <ul>
-           <!-- <li><strong><a href = "/uj/home">홈</a></strong></li> -->
+           
             <%
 			//로그인된 아이디가 있는지 읽어와보기
 			String uid =(String)session.getAttribute("uid");
@@ -205,14 +198,14 @@ transform: translateY(-5px) rotate(-135deg);
            <li><strong><button type="button" 
 					onclick="location.href='/uj/list';">게시판</button></strong></li>
            <li><strong><button type="button" 
-					onclick="location.href='/uj/reservation';">예약</button></strong></li>
+					onclick="location.href='/uj/rlist';">예약</button></strong></li>
           
           
            <li><strong><button type="button" 
 					onclick="location.href='http://instagram.com/gimsehwan5504';">인스타그램</button></strong></li>
-		<li><strong><button type="button" 
+			<li><strong><button type="button" 
 					onclick="location.href='/uj/game';">게임</button></strong></li>			
-          	
+          
          </ul>
        </div>
      </div>

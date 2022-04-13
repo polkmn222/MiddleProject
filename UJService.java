@@ -210,7 +210,7 @@ public class UJService {
 			         return false;
 			      }
 			      
-			       System.out.println("ser"+mfiles); 
+//			       System.out.println("ser"+mfiles); 
 					
 //					 if(mfiles != null) { System.out.println("파일이 전달은 됨"); }
 					 
@@ -256,9 +256,7 @@ public class UJService {
 				return saved;  	      
 			 }
 			
-			
-			
-			
+
 			public int deleteBoard(BoardVO board) {
 				
 				return dao.deleteBoard(board);
@@ -294,71 +292,53 @@ public class UJService {
 			
 			public int reservation(UJRVO ujr) {
 //				System.out.println("svc: " + ujr.getRtime());
+//				System.out.println("total"+ujr.getTotal());
+//				System.out.println("rp"+ujr.getRp());
+				int total = 0;
+				List<UJRVO> list= dao.rList();
+				for(int i=0; i<list.size(); i++) {
+					if(ujr.getRinfo().equals(list.get(i).getRinfo())&&
+							ujr.getRtime().equals(list.get(i).getRtime())) {
+						
+						total +=(list.get(i).getRp());
+					}
+														
+				}
+				
+				if(total>10) {
+					return -1;
+				}
 				return dao.reservation(ujr);
 			}
 			
 			public List<UJRVO> reserList() {
-//			     UJRVO ujr = new UJRVO();
-//			     for(int i=1; i<=ujr.getRp(); i++) {
-//			    	 ujr.setTotalnum(ujr.getRp());
-//			     }
+
 				return dao.reserList();
 			}
 			
-			public UJRVO getList(String rinfo) {
-//				System.out.println("5");
-				return dao.getList(rinfo);
+			public List<UJRVO> selectReservation(PagingVO vo) {
+				return dao.selectReservation(vo);
 			}
 			
-//			 public List<UJRVO> reserList() {
-//					List<Map<String,Object>> list = dao.reserList();
-//					List<UJRVO> list2 = new ArrayList<>();
-//					
-////					int prev_num = 0;
-//					for(int i=0;i<list.size();i++) {
-//						int bnum = (int)list.get(i).get("rnum");
-////						if(bnum==prev_num) { // 첨부파일이 다수개라서 중복되는 행이 있다면...
-////							BoardVO _board = list2.get(list2.size()-1);
-////							AttachVO att = new AttachVO();
-////							att.setFilename((String)list.get(i).get("filename"));
-////							att.setFilesize ((int)list.get(i).get("filesize"));
-////							_board.attach.add(att);
-////							continue;
-////						}
-//						
-//						// 첨부파일이 없거나 한개인 게시글이라면...
-//						Map<String, Object> m = list.get(i);
-//						UJRVO ujr = new UJRVO();
-//						ujr.setRnum(bnum);
-//						ujr.setRinfo((String)m.get("rinfo"));
-//						ujr.setRp((Integer)m.get("rp"));
-//						ujr.setRuid((String)m.get("ruid"));
-//						ujr.setRtime((String)m.get("rtime"));
-////						board.setNum(bnum);
-////						board.setTitle((String)m.get("title"));
-////						board.setAuthor((String) m.get("author"));
-////						board.setBdate((java.sql.Date)m.get("bdate"));
-//
-////						if(m.get("filename")!=null) { // 첨부파일을 가진 글이라면...
-////						
-////							AttachVO att = new AttachVO();
-////							att.setNum((int)list.get(i).get("att_num"));
-////							att.setFilename((String)list.get(i).get("filename"));
-////							att.setFilesize ((int)list.get(i).get("filesize"));
-////							board.attach.add(att);
-////						}
-//						list2.add(ujr);
-////						prev_num = bnum;  // 중복되는 행인지 확인하기 위함
-//					} // end of for()
-//					return list2;
-//				}
+			
+			public List<UJRVO> getReser(String ruid) {
+				return dao.getReser(ruid);
+			}
+			
+			public int countList() {
+				return dao.countList();
+			}
+			
+			public List<UJRVO> rList() {
+				return dao.rList();
+			}
+				
+			
+			public boolean rDeleted(int num) {
+				
+				return dao.rDeleted(num);
+			}
 			
 			
-			
-
-			public UJRVO getreservation(String rinfo) {
-//				 System.out.println("svc"+uid);
-			      return dao.getreservation(rinfo);
-			 }
 
 }

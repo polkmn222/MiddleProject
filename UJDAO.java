@@ -93,9 +93,6 @@ public class UJDAO {
 	}
 	
 	
-	 
-	
-	
 	public int deleteBoard(BoardVO b) {
 	      return mapper.deleteBoard(b);
 	}
@@ -110,34 +107,49 @@ public class UJDAO {
 
 	
 	public List<BoardVO> selectBoard(PagingVO vo) {
+		
+		
 		return mapper.selectBoard(vo);
 	}
 	
 	public int reservation(UJRVO ujr) {
 //		System.out.println("dao"+ujr.getRinfo());
+//		List<UJRVO> list= mapper.reserList();
+//		for(int i=0; i<list.size(); i++) {
+//			System.out.println(list.get(i));
+//		}
 		return mapper.reservation(ujr);
 	}
 	
 //	public List<Map<String, Object>> reserList() {
 //		return mapper.reserList();
 //	}
-	public UJRVO getList(String rinfo) {
-	      return mapper.getList(rinfo);
-	}
-	
-	
-	
 	public List<UJRVO> reserList() {
-	     
+		
 		return mapper.reserList();
 	}
 	
-	
-	
-	public UJRVO getreservation(String rinfo) {
-//	     System.out.println("dao"+uid);
-		return mapper.getreservation(rinfo);
+	public List<UJRVO> selectReservation(PagingVO vo) {
+		return mapper.selectReservation(vo);
 	}
-
+	
+	public int countList() {
+		return mapper.countList();
+	}
+	
+	public List<UJRVO> getReser(String ruid) {
+		
+	      return mapper.getReser(ruid);
+	}
+	
+	public List<UJRVO> rList() {
+		return mapper.rList();
+	}
+	
+	public boolean rDeleted(int num) {
+		return mapper.rDeleted(num)>0;
+	}
+	
+	
 	
 }

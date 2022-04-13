@@ -7,15 +7,16 @@ public class UJRVO {
 	private int rp;
 	private String ruid;
 	private String rtime;
-	private int totalnum;
-	
-	public int getTotalnum() {
-		return totalnum;
+	private int total;
+
+
+	public int getTotal() {
+		return total;
 	}
 
 
-	public void setTotalnum(int totalnum) {
-		this.totalnum = totalnum;
+	public void setTotal(int total) {
+		this.total = total;
 	}
 
 

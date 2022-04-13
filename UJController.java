@@ -37,7 +37,6 @@ import com.tjoeun.vo.UJVO;
 
 
 
-
 @RequestMapping("/uj")
 @Controller
 @SessionAttributes("uid")
@@ -51,7 +50,6 @@ public class UJController {
 	ResourceLoader resourceLoader;
 	
 	@GetMapping("/home") // http://localhost/uj/home
-//	@ResponseBody
 	public String home() {
 		
 		return "uj/home";
@@ -71,92 +69,84 @@ public class UJController {
 		return "game/clock";
 	}
 	
-	@GetMapping("/calendar") // http://localhost/uj/calendar
-//	@ResponseBody
-	public String calendar(@SessionAttribute(name="uid", required=false) String uerid, Model model) {
-		UJVO user = svc.getUserById(uerid);
-		
-		model.addAttribute("user", user);
-		return "game/calendar";
 	
+	@GetMapping("/rlist") 
+	
+	public String rlist(@SessionAttribute(name="uid", required=false) String uid,PagingVO vo, Model model
+			, @RequestParam(value="nowPage", required=false)String nowPage
+			, @RequestParam(value="cntPerPage", required=false)String cntPerPage
+			) {
+		
+		if(uid==null) {
+			return "redirect:/uj/login";
+		} else {
+			
+			int total = svc.countList();
+			if (nowPage == null && cntPerPage == null) {
+				nowPage = "1";
+				cntPerPage = "5";
+			} else if (nowPage == null) {
+				nowPage = "1";
+			} else if (cntPerPage == null) { 
+				cntPerPage = "5";
+			}
+			List<UJRVO> rList = svc.rList();
+			vo = new PagingVO(total, Integer.parseInt(nowPage), Integer.parseInt(cntPerPage));
+			model.addAttribute("paging", vo);
+			model.addAttribute("viewAll", svc.selectReservation(vo));
+			model.addAttribute("list",svc.reserList());
+			model.addAttribute("rList",rList);
+
+			return "game/rlist";
+		}
 	}
 	
-	@GetMapping("/calendar2") // http://localhost/uj/home
-//	@ResponseBody
-	public String calendar2() {
-		
-		return "game/calendar2";
-	}
-	@GetMapping("/calendar3") // http://localhost/uj/home
-//	@ResponseBody
-	public String calendar3() {
-		
-		return "game/cal3";
-	}
-	
-	
-	
-	
-	@GetMapping("/reservation") // http://localhost/uj/calendar
-//	@ResponseBody
-//	@RequestParam String rinfo,
-	public String reservation(@SessionAttribute(name="uid", required=false) String uerid,Model model,UJRVO ujr) {
+	@GetMapping("/reservation") 
+	public String reservation(@SessionAttribute(name="uid", required=false) String uerid,Model model, UJRVO ujr) {
 		UJVO user = svc.getUserById(uerid);
 		List<UJRVO> list = svc.reserList();
-//		System.out.println("con " + rinfo);
-//		UJRVO list = svc.getList(rinfo);
+
 		model.addAttribute("list", list);
-//		model.addAttribute("list",svc.getreservation());
-		model.addAttribute("ujr", ujr);
 		model.addAttribute("user", user);
 		
-//		System.out.println("con1: "+ujr);
-//		System.out.println("con1: "+user);
 		return "game/reservation";
 		
 	}
 	
-//	@GetMapping("/edit")
-//	public String edit(@RequestParam int num, Model model) {
-//		BoardVO bbs = svc.getUserByNum(num);
-//		
-////		System.out.println(num+" edit "+bbs.getNum());
-//		model.addAttribute("bbs", bbs);
-////		System.out.println("2");
-//		return "board/editBoard";
-//	}
-	
-	
-	
-//	@GetMapping("/list") //http://localhost/mb/list
-//	public String list(@SessionAttribute(name="uid", required=false) String uid, Model model) {
-//		if(uid==null) {
-//			return "redirect:/mb/login";  // 로그인 폼으로...
-//		} else {
-//			List<UJRVO> list = svc.reserList();
-//			model.addAttribute("list", list);
-//			return "user/userList";
-//		}
-//	}
-	
-	
-	
-	
+
 	@PostMapping("/reservation")
 	@ResponseBody
-	public Map<String, Boolean> reservation(UJRVO ujr) {
-//		System.out.println(ujr);
-//		System.out.println("con2: "+ujr.getRinfo());
-		Map<String, Boolean> map = new HashMap<>();
+	public Map<String, Object> reservation(UJRVO ujr) {
+
+		Map<String, Object> map = new HashMap<>();
 		map.put("rv", svc.reservation(ujr)>0 ? true : false);
+
+		return map;
+	}
+	
+	@GetMapping("/rdetail") 
+	public String rdetail(@SessionAttribute(name="uid", required=false) String userid, Model model) { 
+	
+		UJVO user = svc.getUserById(userid);
+		model.addAttribute("user", user);
+		List<UJRVO> list = svc.getReser(userid);
+		model.addAttribute("list", list);
+		
+		return "game/rdetail";
+	}
+	
+	@PostMapping("/rDeleted")
+	@ResponseBody
+	public Map<String,Boolean> rDeleted(@RequestParam int num) {
+		boolean rDeleted = svc.rDeleted(num);
+		Map<String,Boolean> map = new HashMap<>();
+		map.put("rDeleted", rDeleted);
 		return map;
 	}
 	
 	
 	
-	
-	 @GetMapping("/naverMap") 
-//	@RequestMapping(value = "/naverMap")
+	@GetMapping("/naverMap") 
 	public String naverMap() {
 		
 		return "uj/naverMap";
@@ -188,7 +178,16 @@ public class UJController {
 		return map;
 	}
 	
-	@GetMapping("/login") // get 이면 여기 post 면 밑
+	private boolean logincheck(String uid, UJVO user) {
+	      if(uid == user.getUid() || uid.equals(user.getUid()) || uid.equals("smith5")) {
+	         return true;
+	      }
+	         return false;
+	   }
+	
+	
+	
+	@GetMapping("/login") 
 	public String login() {
 		
 		return "uj/login";
@@ -207,7 +206,9 @@ public class UJController {
 		return map;
 	}
 	
-	@GetMapping("/forgot") // get 이면 여기 post 면 밑
+	  
+	
+	@GetMapping("/forgot") 
 	public String forgot() {
 		
 		return "uj/forgot";
@@ -229,7 +230,7 @@ public class UJController {
 	
 	
 	
-	@GetMapping("/logout") // http://localhost/uj/logout
+	@GetMapping("/logout") 
 	public String logout(SessionStatus status) {
 		
 		status.setComplete();
@@ -238,12 +239,10 @@ public class UJController {
 	
 	@GetMapping("/edit")
 	public String edit(@SessionAttribute(name="uid", required=false) String uerid, Model model) {
-//		System.out.println("con"+uerid);
 		UJVO user = svc.getUserById(uerid);
 		model.addAttribute("user", user);
 		return "uj/edit";
 	}
-	
 	
 	
 	@PostMapping("/update")
@@ -269,7 +268,7 @@ public class UJController {
 		return map;
 	}
 	 
-	@GetMapping("/badd") // http://localhost/bbs/add
+	@GetMapping("/badd") 
 		public String badd(@SessionAttribute(name="uid", required=false) String uerid, Model model) {
 		UJVO user = svc.getUserById(uerid);
 		model.addAttribute("user", user);
@@ -283,13 +282,11 @@ public class UJController {
 					HttpServletRequest request,
 					BoardVO board,
 					Model model) {
-//			System.out.println("컨트롤러 파일 : "+mfiles);
+
 			Map<String,Boolean> map = new HashMap<>();
-//			System.out.println("con"+mfiles);
 			boolean added = svc.addBoard(request, board, mfiles);
 			model.addAttribute("board", board);
 			map.put("added", added);
-//			map.put("added", false);
 			return map;
 
 	}
@@ -324,21 +321,19 @@ public class UJController {
 	
 	
 	
-	@GetMapping("/detail") // http://localhost/bbs/detail
-	public String detail(@RequestParam int num, Model model) { // 일치시켜주면 자동으로 들어감
+	@GetMapping("/detail") 
+	public String detail(@RequestParam int num, Model model) { 
 		BoardVO bbs = svc.bdetail(num);
 		model.addAttribute("bbs", bbs);
-//		AttachVO att = svc.detail(num);
+
 		return "board/detail";
 	}
 	
 	@GetMapping("/bedit")
 	public String edit(@RequestParam int num, Model model) {
 		BoardVO bbs = svc.getBoardByNum(num);
-		
-//		System.out.println(num+" edit "+bbs.getNum());
 		model.addAttribute("bbs", bbs);
-//		System.out.println("2");
+
 		return "board/editBoard";
 	}
 	
@@ -349,9 +344,6 @@ public class UJController {
 					HttpServletRequest request,
 					BoardVO board,
 					Model model) {
-//		System.out.println("cor"+board.getNum());
-//		System.out.println("con"+board.getContents());
-//		System.out.println("con"+mfiles);
 		Map<String,Boolean> map = new HashMap<>();
 		boolean updated = svc.updateBoard(request, board, mfiles);
 		map.put("updated", updated);
@@ -362,7 +354,7 @@ public class UJController {
 	
 	
 	@GetMapping("/download/{filename}")
-	public ResponseEntity<Resource> download( //http://localhost/file/download/sample.zip
+	public ResponseEntity<Resource> download( 
 			HttpServletRequest request,
 			@PathVariable String filename) {
 //		Resource resource = (Resource)resourceLoader.getResource("WEB-INF/upload/"+filename);
@@ -427,26 +419,5 @@ public class UJController {
 		return map;
 	}
 	
-	
-//	@RequestMapping(value = "/test", method = RequestMethod.GET)
-//
-//	public ModelAndView test(HttpServletRequest request) {
-//
-//		Set pathSet = request.getSession().getServletContext().getResourcePaths("/");
-//
-//		System.out.println(pathSet);	
-//		String pdfPath = request.getSession().getServletContext().getRealPath("/upload/dog.jpg");
-//		String pdfPath2 = request.getSession().getServletContext().getRealPath("/dog.jpg");
-//
-//		System.out.println(pdfPath);	
-//		System.out.println(pdfPath2);	
-//
-//
-//		return null;
-//
-//	}
-	
-	
-	
-	
+
 }

@@ -50,14 +50,19 @@ public interface UJMapper {
 	
 	int reservation(UJRVO ujr);
 	
-	UJRVO getList(String rinfo);
-	
-	
-	
 	List<UJRVO> reserList();
 	
+	public List<UJRVO> selectReservation(PagingVO vo);
 	
-	UJRVO getreservation(String rinfo);
-	List<Map<String, Object>> reserList2();
+	public int countList();
+	
+	List<UJRVO> getReser(String ruid);
+	
+	List<UJRVO> rList();
+	
+	int rDeleted(int num);
+	
+	
+	
 	
 }

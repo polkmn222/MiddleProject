@@ -133,48 +133,78 @@
 		
 	</select>
 	
+	
+	
 	<insert id="reservation" 
        parameterType="com.tjoeun.vo.UJRVO"
        useGeneratedKeys = "true" keyProperty="rnum">
        INSERT INTO ujrt VALUES(null,#{rinfo},#{rp},#{ruid},#{rtime})
     </insert>
     
-     <select id="getList" 
-       resultType="com.tjoeun.vo.UJRVO"
-       parameterType="String">
-        SELECT rinfo, SUM(rp) AS rp, rtime
-        FROM ujrt
-        WHERE rinfo = #{rinfo}
-    </select>
-     
-     
-     
-     
-     <select id="reserList2"
-    	resultType = "map">
-    	SELECT * FROM ujrt 
-    </select>
+    <select id="getTotal"
+		parameterType="com.tjoeun.vo.UJRVO"
+		resultType="com.tjoeun.vo.UJRVO">
+		SELECT sum(rp) total FROM ujrt
+		WHERE rinfo = #{rinfo} AND rtime = #{rtime}
+	</select>
     
     
     
-    <select id="getreservation" 
-       resultType="com.tjoeun.vo.UJRVO" 
-       parameterType="String">
-        SELECT rinfo, rp, rtime
-        FROM UJRT
-       	WHERE rinfo = #{rinfo}
-    </select>
     
+    <select id="selectReservation" resultType="com.tjoeun.vo.UJRVO">
+		
+		SELECT * 
+      FROM (
+         
+         SELECT @rownum:=@rownum+1 rn, A.* 
+            FROM (
+                  SELECT * 
+                  FROM ujrt, 
+                  (SELECT @ROWNUM:=0) t
+                  ORDER BY rinfo DESC 
+                  ) A
+            ) B
+           
+  		 WHERE RN BETWEEN #{start} AND #{end}
+		
+	</select>
+	
+	<select id="countList" resultType="int">
+		SELECT COUNT(*) FROM ujrt
+	</select>
+    
+
     <select id="reserList" 
        resultType="com.tjoeun.vo.UJRVO" 
        parameterType="String">
-         SELECT rinfo, SUM(rp) AS rp, rtime
+         SELECT  rinfo, rtime, SUM(rp) AS total
         FROM ujrt
-       WHERE rinfo = #{rinfo}
-       	
+      Group BY rinfo, rtime
+      ORDER BY rinfo DESC
+    </select> 
+    
+ 
+      <select id="rList"
+    	resultType="com.tjoeun.vo.UJRVO">
+    	SELECT * FROM ujrt 
     </select>
-    
-    
-    
+     
+     
+     <select id="getReser" 
+       resultType="com.tjoeun.vo.UJRVO" 
+       parameterType="String">
+        SELECT *
+        FROM ujrt
+        WHERE ruid = #{ruid}
+        ORDER BY rnum DESC
+    </select>
+     
+     <delete id="rDeleted"
+    	parameterType="Integer">
+    	DELETE FROM ujrt WHERE rnum=#{rnum}
+    </delete>
+     
+     
+ 
 
 </mapper>

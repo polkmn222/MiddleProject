@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta charset="utf-8">
-<title>게시판</title>
+<title>예약리스트</title>
 <meta name ="viewport" content = "width=device-width, initial-scale = 1">
  
 
@@ -64,29 +64,33 @@
 	div.width = width;
 	div.height = height; 
 	
-	
-	
-    
     
 }
+.red {
+	color : red;
+}
+
  </style>
 </head>
 <script>
 	function selChange() {
 		var sel = document.getElementById('cntPerPage').value;
-		location.href="list?nowPage=${paging.nowPage}&cntPerPage="+sel;
+		location.href="rlist?nowPage=${paging.nowPage}&cntPerPage="+sel;
 	}
 </script>
 <body>
 
 	
 	<div class="container managergrounp" id="container" name="container" >
-	<h3>게시판</h3>
+	<h3>예약리스트</h3>
 	<hr>
 		<a class="btn" href="/uj/home" >홈 <span class="btn_txt_small">▶</span></a>
     	<a class="btn" href="#" >소개 <span class="btn_txt_small">▶</span></a>
     	<a class="btn" href="/uj/naverMap" >오시는길 <span class="btn_txt_small">▶</span></a>
-        <a class="btn" href="/uj/rlist" >예약하기 <span class="btn_txt_small">▶</span></a>
+        <a class="btn" href="/uj/list" >게시판 <span class="btn_txt_small">▶</span></a>
+        
+        <a class="btn" href="/uj/rdetail">나의 예약 <span class="btn_txt_small"></span></a>
+        
         <a class="btn" href="http://instagram.com/gimsehwan5504" >SNS <span class="btn_txt_small">▶</span></a>
 	
 		<div class="right" >
@@ -108,25 +112,29 @@
       <thead class="head">
 			<tr>
                  
-                 <th>글번호</th>
-                 <th>제목</th>   
-                 <th>글쓴이</th>
-                 <th>날짜</th>
+                 <th>날짜</th>   
+                 <th>타임</th>
+                 <th>인원</th>
            </tr> 
 		</thead>
 		<tbody class="body">
 		<tr>
-		 <c:forEach var = "b" items="${viewAll }">
+		 <c:forEach var = "r" items="${list }">
 			
 			<tr>
-				<th>${b.num }.</th>
-				<th><a href="/uj/detail?num=${b.num}" >${b.title }</a></th>
-				<th> ${b.author } </th>
-				<th> ${b.bdate } </th>
+				 <th>${r.rinfo }</th>
+				<th>${r.rtime }</th>
+				<c:choose>
+				<c:when test ="${r.total >=10 }">
+				<th class = "red"> 예약불가 </th>
+				</c:when>
+				<c:otherwise>
+					<th>${r.total }명</th>
+				</c:otherwise>
+				</c:choose> 
+				
 			</tr>
-			
-		 		
-		 	         	
+    	
 		</c:forEach> 
 		
 		</tr>
@@ -139,7 +147,7 @@
                             <span class="arrow radius-left">＜</span>
                             
                             <c:if test="${paging.startPage != 1 }">
-			<a href="/uj/list?nowPage=${paging.startPage - 1 }&cntPerPage=${paging.cntPerPage}">&lt;</a>
+			<a href="/uj/rlist?nowPage=${paging.startPage - 1 }&cntPerPage=${paging.cntPerPage}">&lt;</a>
 		</c:if>
 		<c:forEach begin="${paging.startPage }" end="${paging.endPage }" var="p">
 			<c:choose>
@@ -147,12 +155,12 @@
 					<b>${p }</b>
 				</c:when>
 				<c:when test="${p != paging.nowPage }">
-					<a href="/uj/list?nowPage=${p }&cntPerPage=${paging.cntPerPage}">${p }</a>
+					<a href="/uj/rlist?nowPage=${p }&cntPerPage=${paging.cntPerPage}">${p }</a>
 				</c:when>
 			</c:choose>
 		</c:forEach>
 		<c:if test="${paging.endPage != paging.lastPage}">
-			<a href="/uj/list?nowPage=${paging.endPage+1 }&cntPerPage=${paging.cntPerPage}">&gt;</a>
+			<a href="/uj/rlist?nowPage=${paging.endPage+1 }&cntPerPage=${paging.cntPerPage}">&gt;</a>
 		</c:if>
 
                             <span class="arrow radius-right">＞</span>
@@ -163,7 +171,7 @@
             </table>
         </div>
             <div class="btn_wrap">
-                <a class="btn_org" href="/uj/badd"><span class="txt_white">글쓰기</span></a>
+                <a class="btn_org" href="/uj/reservation"><span class="txt_white">예약하기</span></a>
             </div>
 		
 </body>

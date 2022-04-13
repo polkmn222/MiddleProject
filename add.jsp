@@ -62,11 +62,11 @@
     	 		return false;
     	 	}
     	 	
-    	 	 if (uid_val.length > 13 || uid.val_length <4) {
+    	 	 if (uid_val.length > 13 || uid_val.length <4) {
                
                 return false;
             } 
-    	 	 if (pwd_val.length > 13 || pwd.val_length <4) {
+    	 	 if (pwd_val.length > 13 || pwd_val.length <4) {
                
                 return false;
             } 
