@@ -55,18 +55,25 @@ public class UJController {
 		return "uj/home";
 	}
 	
-	@GetMapping("/game") // http://localhost/uj/game
+	@GetMapping("/game") 
 //	@ResponseBody
 	public String game() {
 		
 		return "game/block";
 	}
 	
-	@GetMapping("/clock") // http://localhost/uj/game
+	@GetMapping("/clock") 
 //	@ResponseBody
 	public String clock() {
 		
 		return "game/clock";
+	}
+	
+	@GetMapping("/info") 
+//	@ResponseBody
+	public String info() {
+		
+		return "uj/info";
 	}
 	
 	
