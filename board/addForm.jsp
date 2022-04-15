@@ -116,7 +116,9 @@ div[contenteditable=true] {
 	  
 		   
 	</script>
-	 <script> function setThumbnail(event) { 
+	<!--  <script> 
+	 
+	 function setThumbnail(event) { 
 		var reader = new FileReader(); 
 		reader.onload = function(event) { 
 			var img = document.createElement("img"); 
@@ -129,8 +131,35 @@ div[contenteditable=true] {
 		
 	 } 
 	
-	</script> 
-	
+	</script> --> 
+	<script>
+function setThumbnail(event) {
+   for (var image of event.target.files) {
+      var reader = new FileReader();
+ 
+      reader.onload = function(event) {
+         var img = document.createElement("img");
+         img.setAttribute("src", event.target.result);
+         img.setAttribute("style", "width:32%;height:width;");         
+         document.querySelector("div#image_container").appendChild(img);         
+
+         
+         //document.querySelector("div#images").appendChild(img);
+         
+         /* var $li = $("<li>");
+         img.appendTo($li);
+         $li.appendTo($("#imageinput"));
+         //var $li = $("<li>").appendTo($("#imageinput")); */
+         
+         //document.querySelector("div#image_container").appendChild(img).appendTo($li);
+      };
+      
+      console.log(image);
+      reader.readAsDataURL(image);
+   }
+}
+
+</script>
 	
 
 
@@ -147,30 +176,31 @@ div[contenteditable=true] {
 	
 	<label for="author">작성자 : </label><span> ${user.uid } </span>
 	
-	 
+	</div>
 	</div>
 		
-	</div>
-		
-		
-		<!-- <div class="row"> --> 
+
 		<div class="mb-3">
 	    <label for="title">글 제목</label>
 	    <input type="text" class="form-control" id="title" name = "title" placeholder="제목을 입력해주세요." value="" required>
 	    <div class="invalid-feedback"> 제목을 입력해주세요. </div> </div> <!-- </div>  -->
 
-	        
-	            	 <div id="image_container">  </div>
+	        		<div class="mb-3" style="width:96%; margin-left: 2%;">
+  			<label for="file" class="form-label"></label>
+  		<input type ="file" id="image" accept="image/*" onchange="setThumbnail(event);" multiple>
+		</div>
+		<div class="mb-3" style="width:96%; margin-left: 2%;" id="image_container"></div>
+	        		
+	            	 <!-- <div id="image_container">  </div> -->
 	        	<div class="mb-3">
 	        	<label for="contents">내용</label>
-	             <!-- <div class="contents" id ="contents" name = "contents" inputype = "text" contenteditable="true"> -->
-	                  <textarea class="form-control" id = "contents" name="contents" cols="80" rows="15" placeholder="내용을 입력해주세요."   required></textarea>   
-	             	<!-- <input type="text" class="form-control" id="contents" name = "contents" style=" width:615px; height:600px;" placeholder="내용을 입력해주세요." value="" required> -->
-	            <div class="invalid-feedback"> 내용을 입력해주세요.</div> </div> <!-- </div> -->
 	            
-	            	<!-- 	<input type ="file" name="mfiles" multiple="multiple" onchange="setThumbnail(event);"></div>  -->
+	                  <textarea class="form-control" id = "contents" name="contents" cols="80" rows="15" placeholder="내용을 입력해주세요."   required></textarea>   
+	             	
+	            <div class="invalid-feedback"> 내용을 입력해주세요.</div> </div> 
+	            
 				
-	            	  <div><label>첨부파일</label> <input type="file" name="mfiles" accept="image/*" onchange="setThumbnail(event);" multiple></div> 
+	            	  <!-- <div><label>첨부파일</label> <input type="file" name="mfiles" accept="image/*" onchange="setThumbnail(event);" multiple></div>  -->
 
 	            	
 	                     		<div>

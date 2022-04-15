@@ -127,7 +127,7 @@ a { text-decoration: none; color:blue; }
 		});
 	}
 </script>
-	<script> function setThumbnail(event) { 
+	<!-- <script> function setThumbnail(event) { 
 		var reader = new FileReader(); 
 		reader.onload = function(event) { 
 			var img = document.createElement("img"); 
@@ -138,7 +138,35 @@ a { text-decoration: none; color:blue; }
 		 
 		} 
 	
-	</script>
+	</script> -->
+	<script>
+function setThumbnail(event) {
+   for (var image of event.target.files) {
+      var reader = new FileReader();
+ 
+      reader.onload = function(event) {
+         var img = document.createElement("img");
+         img.setAttribute("src", event.target.result);
+         img.setAttribute("style", "width:32%;height:width;");         
+         document.querySelector("div#image_container").appendChild(img);         
+
+         
+         //document.querySelector("div#images").appendChild(img);
+         
+         /* var $li = $("<li>");
+         img.appendTo($li);
+         $li.appendTo($("#imageinput"));
+         //var $li = $("<li>").appendTo($("#imageinput")); */
+         
+         //document.querySelector("div#image_container").appendChild(img).appendTo($li);
+      };
+      
+      console.log(image);
+      reader.readAsDataURL(image);
+   }
+}
+
+</script>
 
 
 	
@@ -164,13 +192,13 @@ a { text-decoration: none; color:blue; }
 			<c:when test="${fn:length(bbs.attach)>0}">
 				<c:forEach var="f" items="${bbs.attach}">
 				
-					<div>
+					
 						<%-- <a href="/uj/file/download/${f.num}">${f.filename}</a> --%>
 					
 					<a  href="/uj/file/download/${f.num}">	<img src="/images/${f.filename}"  width="100px" height="100px"  alt="" class="thumb" /> </a>
+					 &nbsp;  	<a class="link_del" href="javascript:delete_file(${f.num});">삭제</a>
 					
-						<a class="link_del" href="javascript:delete_file(${f.num});">삭제</a>
-					</div>
+					
 				</c:forEach>
 			</c:when>
 		<c:otherwise>
