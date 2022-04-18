@@ -1,219 +1,62 @@
-<%@ page language="java" contentType="text/html; charset=utf-8"  pageEncoding="utf-8"%>
+<%@ page language="java" contentType="text/html; charset=utf-8"
+	pageEncoding="utf-8"%>
 <!DOCTYPE html>
-
 <html>
-<head> <meta charset="UTF-8">
+<head>
+<meta charset="UTF-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
-<title>글쓰기</title> 
-<!-- Bootstrap CSS --> 
+<title>글쓰기</title>
+<!-- Bootstrap CSS -->
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-<style> body { min-height: 100vh; background: -webkit-gradient(linear, left bottom, right top, from(#92b5db), to(#1d466c));
-				 background: -webkit-linear-gradient(bottom left, #92b5db 0%, #1d466c 100%); 
-				 background: -moz-linear-gradient(bottom left, #92b5db 0%, #1d466c 100%); 
-				 background: -o-linear-gradient(bottom left, #92b5db 0%, #1d466c 100%); 
-				 background: linear-gradient(to top right, #92b5db 0%, #1d466c 100%); } 
-		.input-form { max-width: 680px; margin-top: 80px; padding: 32px; background: #fff;
-					 -webkit-border-radius: 10px; -moz-border-radius: 10px; border-radius: 10px;
-					 -webkit-box-shadow: 0 8px 20px 0 rgba(0, 0, 0, 0.15); -moz-box-shadow: 0 8px 20px 0 rgba(0, 0, 0, 0.15);
-					  box-shadow: 0 8px 20px 0 rgba(0, 0, 0, 0.15) } 
-		.button1 { width : 90px; height: 37px;  }	
-		.button2 { width : 90px; height: 37px; 
-					margin-top: 0px;
-
-    				margin-right: 0px;
-
-    				margin-bottom: 0px;
-
-    				margin-left: 350px; 
-    				position : absolute;
-    				}	
-		span {
-			font-size : 24px;
-		}
-		
-		img {
-			width : 100px;
-		}
-		
-	/* 	[contenteditable=true]:empty:before{
-  content: attr(placeholder);
-  display: block;  For Firefox 
-}
-div[contenteditable=true] {
-  border: 1px solid #ddd;
-  color : #333;
-  font-size: 20px;
-  width: 600px;
-  height: 300px;
-  padding: 5px;
-} */
-				  
-</style> 
-</head> 
+<link rel="stylesheet" type="text/css" href="/css/addForm.css">
+</head>
 <body>
- 	<script>
- 	
- 	
- 	window.addEventListener('load', () => { 
- 		const forms = document.getElementsByClassName('validation-form'); 
- 		
- 		Array.prototype.filter.call(forms, (form) => { 
- 			form.addEventListener('submit', function (event) { 
- 				if (form.checkValidity() === false) { 
- 					event.preventDefault(); event.stopPropagation(); 
- 				} 
- 				
- 		form.classList.add('was-validated');
- 		},  false);
- 	});
- },
- false);
+	<div class="container">
+		<div class="input-form-backgroud row">
+			<div class="input-form col-md-12 mx-auto">
+				<h4 class="mb-3">글쓰기</h4>
+				<form class="validation-form" id="validation-form" action="/uj/badd" enctype="multipart/form-data" onsubmit="return add();" novalidate>
+					<input type=hidden id="author" name="author" value="${user.uid}">
+					
+					<div class="row">
+						<div class="col-md-10 mb-3">
+							<label for="author">작성자 : </label><span> ${user.uid } </span>
+						</div>
+					</div>
 
-		function add() {
-			var title = $('#title').val();
-			var contents = $('#contents').val();
-			
-			
-			if(title=="") {
-				return false;
-			}
-			if(contents=="") {
-				return false;
-			} 
-			
-			 if(!confirm('정말로 저장하시겠습니까?')) {
-				alert('정상적으로 취소했습니다.');
-				return false;
-			} 
-		
-			/*  var serData = $('#addForm').serialize(); */
-			  var formData = new FormData($("#validation-form")[0]); 
-			$.ajax({
-				url : '/uj/badd',
-				method : 'post',
-				enctype :'multipart/form-data',
-				cache : false,
-				data : formData,
-				processData: false,
-		        contentType: false,
-				dataType : 'json',
-				success : function(res) {
-					 if(res.added) {
-						 alert('저장 성공!');
-					 } else {
-						 alert('저장 실패');						 
-					 }
-						 location.href = "/uj/list"; 
-				},
-				error : function(xhr, status, err) {
-					alert('err' + err);
-				} 
-			});
-			return false; 
-		}
-	  
-		   
-	</script>
-	<!--  <script> 
-	 
-	 function setThumbnail(event) { 
-		var reader = new FileReader(); 
-		reader.onload = function(event) { 
-			var img = document.createElement("img"); 
-			img.setAttribute("src", event.target.result); 
-			document.querySelector("div#image_container").appendChild(img); 
-		}; 
-		
-			reader.readAsDataURL(event.target.files[0]); 						
-	
-		
-	 } 
-	
-	</script> --> 
-	<script>
-function setThumbnail(event) {
-   for (var image of event.target.files) {
-      var reader = new FileReader();
- 
-      reader.onload = function(event) {
-         var img = document.createElement("img");
-         img.setAttribute("src", event.target.result);
-         img.setAttribute("style", "width:32%;height:width;");         
-         document.querySelector("div#image_container").appendChild(img);         
+					<div class="mb-3">
+						<label for="title">글 제목</label> <input type="text" class="form-control" id="title" name="title" placeholder="제목을 입력해주세요." required>
+						<div class="invalid-feedback">제목을 입력해주세요.</div>
+					</div>
+					
+					<div class="mb-3" style="width: 96%; margin-left: 2%;">
+						<label for="file" class="form-label"></label> 
+						<input type="file" id="image" name="mfiles" accept="image/*" onchange="setThumbnail(event);" multiple>
+					</div>
+					<div class="mb-3" style="width: 96%; margin-left: 2%;" id="image_container"></div>
 
-         
-         //document.querySelector("div#images").appendChild(img);
-         
-         /* var $li = $("<li>");
-         img.appendTo($li);
-         $li.appendTo($("#imageinput"));
-         //var $li = $("<li>").appendTo($("#imageinput")); */
-         
-         //document.querySelector("div#image_container").appendChild(img).appendTo($li);
-      };
-      
-      console.log(image);
-      reader.readAsDataURL(image);
-   }
-}
+					<div class="mb-3">
+						<label for="contents">내용</label>
+						<textarea class="form-control" id="contents" name="contents"
+							cols="80" rows="15" placeholder="내용을 입력해주세요." required></textarea>
+						<div class="invalid-feedback">내용을 입력해주세요.</div>
+					</div>
 
-</script>
-	
-
-
-	
-<div class="container">
-<div class="input-form-backgroud row">
-<div class="input-form col-md-12 mx-auto">
-<h4 class="mb-3">글쓰기</h4>
-<form class="validation-form" novalidate id = "validation-form"  action="/uj/badd" enctype="multipart/form-data" onsubmit = "return add();">
-<input type = hidden id = "author" name = "author" value = "${user.uid}">
-<div class="row"> 
-<div class="col-md-10 mb-3">
-	
-	
-	<label for="author">작성자 : </label><span> ${user.uid } </span>
-	
-	</div>
-	</div>
-		
-
-		<div class="mb-3">
-	    <label for="title">글 제목</label>
-	    <input type="text" class="form-control" id="title" name = "title" placeholder="제목을 입력해주세요." value="" required>
-	    <div class="invalid-feedback"> 제목을 입력해주세요. </div> </div> <!-- </div>  -->
-
-	        		<div class="mb-3" style="width:96%; margin-left: 2%;">
-  			<label for="file" class="form-label"></label>
-  		<input type ="file" id="image" accept="image/*" onchange="setThumbnail(event);" multiple>
+					<div>
+						<button class="button1" type="submit">글 작성</button>
+						<button class="button1" type="reset">초기화</button>
+						<button class="button2" type="button"
+							onclick="location.href='/uj/list';">목록</button>
+					</div>
+				</form>
+			</div>
 		</div>
-		<div class="mb-3" style="width:96%; margin-left: 2%;" id="image_container"></div>
-	        		
-	            	 <!-- <div id="image_container">  </div> -->
-	        	<div class="mb-3">
-	        	<label for="contents">내용</label>
-	            
-	                  <textarea class="form-control" id = "contents" name="contents" cols="80" rows="15" placeholder="내용을 입력해주세요."   required></textarea>   
-	             	
-	            <div class="invalid-feedback"> 내용을 입력해주세요.</div> </div> 
-	            
-				
-	            	  <!-- <div><label>첨부파일</label> <input type="file" name="mfiles" accept="image/*" onchange="setThumbnail(event);" multiple></div>  -->
-
-	            	
-	                     		<div>
-	                         	 <button class = "button1"  type="submit">글 작성</button>
-	                         	 <button class = "button1" type="reset">초기화</button>
-	                         	 <button class = "button2" type="button"
-	                         							onclick="location.href='/uj/list';" >목록</button>
-	              				</div>
-	                         	 
-	                         	 
-	                            
-</form></div></div> 
-	<footer class="my-3 text-center text-small"> <p class="mb-1">&copy; 2022 PSY</p> </footer> </div>
+		<footer class="my-3 text-center text-small">
+			<p class="mb-1">&copy; 2022 PSY</p>
+		</footer>
+	</div>
+	<script src="/js/addForm.js"></script>
 </body>
 </html>
-

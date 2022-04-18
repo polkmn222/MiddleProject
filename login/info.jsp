@@ -7,9 +7,8 @@
    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>소개</title>
 <style>
-   
-   button {width: 200px; height: 50px;}
-    </style>
+   button { width: 200px; height: 50px; }
+</style>
 </head>
 <body>
 	<h1>1. 오마카세(おまかせ)란?</h1>
@@ -20,9 +19,7 @@
 	<h1>2. 자리</h1>
 	<img src="/img/uj5.png" width="80%" height="30%"  alt="" class="thumb" />
 	<p>
-	<strong><button type="button" 
-					onclick="location.href='/uj/rlist';">예약</button></strong>
-	<strong><button type="button" 
-					onclick="location.href='/uj/home';">홈</button></strong>
+	<strong><button type="button" onclick="location.href='/uj/rlist';">예약</button></strong>
+	<strong><button type="button" onclick="location.href='/uj/home';">홈</button></strong>
 </body>
 </html>

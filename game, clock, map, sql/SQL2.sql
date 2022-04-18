@@ -8,7 +8,7 @@ CREATE TABLE ujuser(
     root	VARCHAR(20)
 );
 SELECT * FROM BOARD;
-
+INSERT INTO ujuser VALUES("smith51","1234","smith","010-0000-0000","강남구",null,"abc@abc.com");
 ALTER TABLE ujuser ADD email VARCHAR(30);
 
 SELECT * FROM ujuser;
@@ -107,7 +107,7 @@ WHERE rinfo = "2022-04-11";
 SELECT rinfo, SUM(rp), rtime
 FROM UJRT;
 
-SELECT rinfo, SUM(rp) AS rp, rtime
+SELECT rinfo, SUM(rp) AS total, rtime
         FROM ujrt
       Group BY rinfo, rtime;
       
@@ -144,6 +144,26 @@ ALTER TABLE UJRT DROP rtotal;
 DESC UJRT;
 SELECT * FROM UJRT;
 
+INSERT INTO ujrt VALUES(null,'2022-04-13',2,'smith5','런치 : 13시05분');
 UPDATE UJRT 
-SET rtotal = rtotal +1
-WHERE rinfo = "2022-04-13" AND rtime = "런치 : 13시05분";
+SET rtotal = rtotal +rp
+WHERE rinfo = '2022-04-13' AND rtime = '런치 : 13시05분';
+
+INSERT INTO ujrt(rnum,rinfo,rp,ruid,rtime, rtotal) VALUES(0,"2022-04-13",2,"smith5","런치 : 13시05분", 0)
+ON DUPLICATE KEY UPDATE rtotal = rtotal + rp;
+
+   SELECT  rinfo, rtime, rtotal
+        FROM ujrt
+      Group BY rinfo, rtime
+      ORDER BY rinfo DESC;
+      
+      SELECT rtotal FROM ujrt
+		where rinfo ="2022-04-13" AND rtime = "런치 : 13시05분";
+        
+        SELECT * FROM UJRT;
+        
+        SELECT  rinfo, rtime, SUM(rp) AS total
+        FROM ujrt
+      Group BY rinfo, rtime
+      ORDER BY rinfo DESC;
+      	

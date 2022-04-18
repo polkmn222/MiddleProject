@@ -49,110 +49,43 @@ public class UJController {
 	@Autowired
 	ResourceLoader resourceLoader;
 	
+//	홈
 	@GetMapping("/home") // http://localhost/uj/home
 	public String home() {
 		
 		return "uj/home";
 	}
 	
+//	미니게임
 	@GetMapping("/game") 
-//	@ResponseBody
 	public String game() {
 		
 		return "game/block";
 	}
 	
+//	시계
 	@GetMapping("/clock") 
-//	@ResponseBody
 	public String clock() {
 		
 		return "game/clock";
 	}
 	
+//	소개
 	@GetMapping("/info") 
-//	@ResponseBody
 	public String info() {
 		
 		return "uj/info";
 	}
 	
-	
-	@GetMapping("/rlist") 
-	
-	public String rlist(@SessionAttribute(name="uid", required=false) String uid,PagingVO vo, Model model
-			, @RequestParam(value="nowPage", required=false)String nowPage
-			, @RequestParam(value="cntPerPage", required=false)String cntPerPage
-			) {
+//	미구현
+	@GetMapping("/kakao") 
+	public String kakao() {
 		
-		if(uid==null) {
-			return "redirect:/uj/login";
-		} else {
-			
-			int total = svc.countList();
-			if (nowPage == null && cntPerPage == null) {
-				nowPage = "1";
-				cntPerPage = "5";
-			} else if (nowPage == null) {
-				nowPage = "1";
-			} else if (cntPerPage == null) { 
-				cntPerPage = "5";
-			}
-			List<UJRVO> rList = svc.rList();
-			vo = new PagingVO(total, Integer.parseInt(nowPage), Integer.parseInt(cntPerPage));
-			model.addAttribute("paging", vo);
-			model.addAttribute("viewAll", svc.selectReservation(vo));
-			model.addAttribute("list",svc.reserList());
-			model.addAttribute("rList",rList);
-
-			return "game/rlist";
-		}
-	}
-	
-	@GetMapping("/reservation") 
-	public String reservation(@SessionAttribute(name="uid", required=false) String uerid,Model model, UJRVO ujr) {
-		UJVO user = svc.getUserById(uerid);
-		List<UJRVO> list = svc.reserList();
-
-		model.addAttribute("list", list);
-		model.addAttribute("user", user);
-		
-		return "game/reservation";
-		
+		return "uj/kakao";
 	}
 	
 
-	@PostMapping("/reservation")
-	@ResponseBody
-	public Map<String, Object> reservation(UJRVO ujr) {
-
-		Map<String, Object> map = new HashMap<>();
-		map.put("rv", svc.reservation(ujr)>0 ? true : false);
-
-		return map;
-	}
-	
-	@GetMapping("/rdetail") 
-	public String rdetail(@SessionAttribute(name="uid", required=false) String userid, Model model) { 
-	
-		UJVO user = svc.getUserById(userid);
-		model.addAttribute("user", user);
-		List<UJRVO> list = svc.getReser(userid);
-		model.addAttribute("list", list);
-		
-		return "game/rdetail";
-	}
-	
-	@PostMapping("/rDeleted")
-	@ResponseBody
-	public Map<String,Boolean> rDeleted(@RequestParam int num) {
-		boolean rDeleted = svc.rDeleted(num);
-		Map<String,Boolean> map = new HashMap<>();
-		map.put("rDeleted", rDeleted);
-		return map;
-	}
-	
-	
-	
+//	네이버 지도
 	@GetMapping("/naverMap") 
 	public String naverMap() {
 		
@@ -160,6 +93,9 @@ public class UJController {
 	}
 	
 
+//	=================================================================
+//	로그인
+//	유저 추가
 	@GetMapping("/add")
 	public String form() {
 		
@@ -175,6 +111,7 @@ public class UJController {
 		return map;
 	}
 	
+//	아이디 중복체크
 	@PostMapping("/idcheck")
 	@ResponseBody
 	public Map<String,Boolean> idcheck(UJVO uj) {
@@ -185,21 +122,12 @@ public class UJController {
 		return map;
 	}
 	
-	private boolean logincheck(String uid, UJVO user) {
-	      if(uid == user.getUid() || uid.equals(user.getUid()) || uid.equals("smith5")) {
-	         return true;
-	      }
-	         return false;
-	   }
-	
-	
-	
+//	로그인
 	@GetMapping("/login") 
 	public String login() {
 		
 		return "uj/login";
 	}
-	
 	
 	@PostMapping("/login")
 	@ResponseBody
@@ -213,8 +141,7 @@ public class UJController {
 		return map;
 	}
 	
-	  
-	
+//	비밀번호 찾기
 	@GetMapping("/forgot") 
 	public String forgot() {
 		
@@ -234,9 +161,7 @@ public class UJController {
 		return map;
 	}
 	
-	
-	
-	
+//	로그아웃
 	@GetMapping("/logout") 
 	public String logout(SessionStatus status) {
 		
@@ -244,13 +169,13 @@ public class UJController {
 		return "redirect:/uj/home";  
 	}
 	
+//	회원정보 수정
 	@GetMapping("/edit")
 	public String edit(@SessionAttribute(name="uid", required=false) String uerid, Model model) {
 		UJVO user = svc.getUserById(uerid);
 		model.addAttribute("user", user);
 		return "uj/edit";
 	}
-	
 	
 	@PostMapping("/update")
 	@ResponseBody
@@ -267,6 +192,7 @@ public class UJController {
 	  
 	  }
 	
+//	회원정보 삭제
 	@PostMapping("/delete")
 	@ResponseBody
 	public Map<String,Boolean> deleteUser(UJVO uj) {
@@ -275,6 +201,10 @@ public class UJController {
 		return map;
 	}
 	 
+	
+//	=================================================================
+//	게시판
+//	글쓰기
 	@GetMapping("/badd") 
 		public String badd(@SessionAttribute(name="uid", required=false) String uerid, Model model) {
 		UJVO user = svc.getUserById(uerid);
@@ -298,6 +228,7 @@ public class UJController {
 
 	}
 	
+//	게시판 리스트 + 페이지
 	@GetMapping("/list") 
 	public String boardList(@SessionAttribute(name="uid", required=false) String uid,PagingVO vo, Model model
 			, @RequestParam(value="nowPage", required=false)String nowPage
@@ -325,9 +256,7 @@ public class UJController {
 		}
 	}
 	
-	
-	
-	
+//	게시글 상세보기
 	@GetMapping("/detail") 
 	public String detail(@RequestParam int num, Model model) { 
 		BoardVO bbs = svc.bdetail(num);
@@ -336,6 +265,7 @@ public class UJController {
 		return "board/detail";
 	}
 	
+//	게시글 수정
 	@GetMapping("/bedit")
 	public String edit(@RequestParam int num, Model model) {
 		BoardVO bbs = svc.getBoardByNum(num);
@@ -357,9 +287,7 @@ public class UJController {
 		return map;
 	}
 	
-	
-	
-	
+//	파일 다운로드
 	@GetMapping("/download/{filename}")
 	public ResponseEntity<Resource> download( 
 			HttpServletRequest request,
@@ -391,7 +319,6 @@ public class UJController {
 		String filename = svc.getFilename(num);
 //		Resource resource = (Resource)resourceLoader.getResource("WEB-INF/upload/"+filename);
 		Resource resource = (Resource)resourceLoader.getResource("/images/"+filename);
-		//System.out.println("파일명:"+resource.getFilename());
         String contentType = null;
         try {
             contentType = request.getServletContext().getMimeType(resource.getFile().getAbsolutePath());
@@ -409,6 +336,7 @@ public class UJController {
                 .body(resource);
 	}
 	
+//	게시글 삭제
 	@PostMapping("/bdelete")
 	@ResponseBody
 	public Map<String,Boolean> deleteBoard(BoardVO board) {
@@ -417,12 +345,75 @@ public class UJController {
 		return map;
 	}
 	
+//	파일 삭제
 	@PostMapping("/file/delete")
 	@ResponseBody
 	public Map<String,Boolean> deleteFileInfo(@RequestParam int num) {
 		boolean deleted = svc.deleteFileInfo(num, resourceLoader);
 		Map<String,Boolean> map = new HashMap<>();
 		map.put("deleted", deleted);
+		return map;
+	}
+	
+	
+//	=================================================================
+//	예약
+//	예약 리스트
+	@GetMapping("/rlist") 
+	public String rlist(@SessionAttribute(name="uid", required=false) String uid, Model model) {
+		
+		if(uid==null) {
+			return "redirect:/uj/login";
+		} else {
+			List<UJRVO> rList = svc.rList();
+			model.addAttribute("list",svc.reserList());
+			model.addAttribute("rList",rList);
+
+			return "game/rlist";
+		}
+	}
+	
+//	예약
+	@GetMapping("/reservation") 
+	public String reservation(@SessionAttribute(name="uid", required=false) String uerid,Model model, UJRVO ujr) {
+		UJVO user = svc.getUserById(uerid);
+		List<UJRVO> list = svc.reserList();
+		model.addAttribute("list", list);
+		model.addAttribute("user", user);
+		
+		return "game/reservation";
+		
+	}
+	
+	@PostMapping("/reservation")
+	@ResponseBody
+	public Map<String, Object> reservation(UJRVO ujr) {
+
+		Map<String, Object> map = new HashMap<>();
+		map.put("rv", svc.reservation(ujr)>0 ? true : false);
+
+		return map;
+	}
+	
+//	예약 상세정보
+	@GetMapping("/rdetail") 
+	public String rdetail(@SessionAttribute(name="uid", required=false) String userid, Model model) { 
+	
+		UJVO user = svc.getUserById(userid);
+		model.addAttribute("user", user);
+		List<UJRVO> list = svc.getReser(userid);
+		model.addAttribute("list", list);
+		
+		return "game/rdetail";
+	}
+	
+//	예약취소
+	@PostMapping("/rDeleted")
+	@ResponseBody
+	public Map<String,Boolean> rDeleted(@RequestParam int num) {
+		boolean rDeleted = svc.rDeleted(num);
+		Map<String,Boolean> map = new HashMap<>();
+		map.put("rDeleted", rDeleted);
 		return map;
 	}
 	
