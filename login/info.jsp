@@ -17,7 +17,7 @@
 	<img src="/img/uj4.png" width="30%" height="30%"  alt="" class="thumb" />
 	<p>
 	<h1>2. 자리</h1>
-	<img src="/img/uj5.png" width="80%" height="30%"  alt="" class="thumb" />
+	<img src="/img/uj5.png" width="40%" height="30%"  alt="" class="thumb" />
 	<p>
 	<strong><button type="button" onclick="location.href='/uj/rlist';">예약</button></strong>
 	<strong><button type="button" onclick="location.href='/uj/home';">홈</button></strong>

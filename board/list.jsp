@@ -9,7 +9,7 @@
 <meta name="viewport" content="width=device-width, initial-scale = 1">
 <link rel="stylesheet" type="text/css" href="/css/list.css">
 </head>
-<body>
+<body> 
 	<div class="container managergrounp" id="container" name="container">
 		<h3>게시판</h3>
 		<hr>
@@ -80,6 +80,12 @@
 	<div class="btn_wrap">
 		<a class="btn_org" href="/uj/badd"><span class="txt_white">글쓰기</span></a>
 	</div>
-<script src="/js/list.js"></script>
+ <script>
+//페이지 갯수 변경
+ function selChange() {
+ 	var sel = document.getElementById('cntPerPage').value;
+ 	location.href = "list?nowPage=${paging.nowPage}&cntPerPage=" + sel;
+ }
+</script>
 </body>
 </html>

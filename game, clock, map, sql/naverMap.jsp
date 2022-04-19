@@ -94,7 +94,7 @@
 	<div>
 		<p>
 			<button type=button class="button button1"
-				onclick="location.href='https://map.naver.com/v5/directions/-/14141397.151503626,4522094.137155175,%EC%9A%B0%EC%A0%95%EC%B4%88%EB%B0%A5,1156260886,PLACE_POI/-/car?c=14141397.1515036,4522094.1371552,15,0,0,0,dh'">길찾 기</button>
+				onclick="location.href='https://map.naver.com/v5/directions/-/14141397.151503626,4522094.137155175,%EC%9A%B0%EC%A0%95%EC%B4%88%EB%B0%A5,1156260886,PLACE_POI/-/car?c=14141397.1515036,4522094.1371552,15,0,0,0,dh'">길찾기</button>
 		<ul>
 			<li><strong>우정초밥</strong></li>
 			<li>서울특별시 성북구 종암동 종암로3길 31</li>
