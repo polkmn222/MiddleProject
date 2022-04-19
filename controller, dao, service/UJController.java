@@ -1,6 +1,5 @@
 package com.tjoeun.controller;
 
-
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
@@ -33,389 +32,376 @@ import com.tjoeun.vo.PagingVO;
 import com.tjoeun.vo.UJRVO;
 import com.tjoeun.vo.UJVO;
 
-
-
-
-
 @RequestMapping("/uj")
 @Controller
 @SessionAttributes("uid")
 
 public class UJController {
-	
+
 	@Autowired
 	private UJService svc;
-	
+
 	@Autowired
 	ResourceLoader resourceLoader;
-	
+
 //	홈
 	@GetMapping("/home") // http://localhost/uj/home
 	public String home() {
-		
+
 		return "uj/home";
 	}
-	
+
 //	미니게임
-	@GetMapping("/game") 
+	@GetMapping("/game")
 	public String game() {
-		
+
 		return "game/block";
 	}
-	
+
 //	시계
-	@GetMapping("/clock") 
+	@GetMapping("/clock")
 	public String clock() {
-		
+
 		return "game/clock";
 	}
-	
+
 //	소개
-	@GetMapping("/info") 
+	@GetMapping("/info")
 	public String info() {
-		
+
 		return "uj/info";
 	}
-	
+
 //	미구현
-	@GetMapping("/kakao") 
+	@GetMapping("/kakao")
 	public String kakao() {
-		
+
 		return "uj/kakao";
 	}
-	
 
 //	네이버 지도
-	@GetMapping("/naverMap") 
+	@GetMapping("/naverMap")
 	public String naverMap() {
-		
+
 		return "uj/naverMap";
 	}
-	
 
 //	=================================================================
 //	로그인
 //	유저 추가
 	@GetMapping("/add")
 	public String form() {
-		
+
 		return "uj/add";
 	}
-	
+
 	@PostMapping("/add")
 	@ResponseBody
 	public Map<String, Boolean> addUser(UJVO uj) {
 		Map<String, Boolean> map = new HashMap<>();
-		
-		map.put("add", svc.insertUser(uj)>0 ? true : false);
+
+		map.put("add", svc.insertUser(uj) > 0 ? true : false);
 		return map;
 	}
-	
+
 //	아이디 중복체크
 	@PostMapping("/idcheck")
 	@ResponseBody
-	public Map<String,Boolean> idcheck(UJVO uj) {
-		
-		Map<String,Boolean> map = new HashMap<>();
+	public Map<String, Boolean> idcheck(UJVO uj) {
+
+		Map<String, Boolean> map = new HashMap<>();
 		map.put("check", svc.idcheck(uj));
 
 		return map;
 	}
-	
+
 //	로그인
-	@GetMapping("/login") 
+	@GetMapping("/login")
 	public String login() {
-		
+
 		return "uj/login";
 	}
-	
+
 	@PostMapping("/login")
 	@ResponseBody
 	public Map<String, Boolean> login(UJVO uj, Model m) {
 		boolean ok = svc.login(uj);
-		if(ok) {
+		if (ok) {
 			m.addAttribute("uid", uj.getUid());
 		}
-		Map<String, Boolean> map = new HashMap<>();		
+		Map<String, Boolean> map = new HashMap<>();
 		map.put("ok", ok);
 		return map;
 	}
-	
+
 //	비밀번호 찾기
-	@GetMapping("/forgot") 
+	@GetMapping("/forgot")
 	public String forgot() {
-		
+
 		return "uj/forgot";
 	}
-	
-	
+
 	@PostMapping("/forgot")
 	@ResponseBody
 	public Map<String, Boolean> forgot(UJVO uj, Model m) {
 		boolean ok = svc.forgot(uj);
-		if(ok) {
+		if (ok) {
 			m.addAttribute("uid", uj.getUid());
 		}
-		Map<String, Boolean> map = new HashMap<>();		
+		Map<String, Boolean> map = new HashMap<>();
 		map.put("ok", ok);
 		return map;
 	}
-	
+
 //	로그아웃
-	@GetMapping("/logout") 
+	@GetMapping("/logout")
 	public String logout(SessionStatus status) {
-		
+
 		status.setComplete();
-		return "redirect:/uj/home";  
+		return "redirect:/uj/home";
 	}
-	
+
 //	회원정보 수정
 	@GetMapping("/edit")
-	public String edit(@SessionAttribute(name="uid", required=false) String uerid, Model model) {
+	public String edit(@SessionAttribute(name = "uid", required = false) String uerid, Model model) {
 		UJVO user = svc.getUserById(uerid);
 		model.addAttribute("user", user);
 		return "uj/edit";
 	}
-	
+
 	@PostMapping("/update")
 	@ResponseBody
-	public Map<String,Boolean> update(UJVO uj) {
+	public Map<String, Boolean> update(UJVO uj) {
 		Map<String, String> pMap = new HashMap<>();
 		pMap.put("uid", uj.getUid());
-		pMap.put("pwd", uj.getPwd());		
+		pMap.put("pwd", uj.getPwd());
 		pMap.put("phone", uj.getPhone());
 		boolean updated = svc.updateByMap(pMap);
-	
-	  Map<String,Boolean> map = new HashMap<>(); 
-	  map.put("updated", updated);
-	  return map;
-	  
-	  }
-	
+
+		Map<String, Boolean> map = new HashMap<>();
+		map.put("updated", updated);
+		return map;
+
+	}
+
 //	회원정보 삭제
 	@PostMapping("/delete")
 	@ResponseBody
-	public Map<String,Boolean> deleteUser(UJVO uj) {
-		Map<String,Boolean> map = new HashMap<>();
-		map.put("deleted", svc.deleteUser(uj)>0 ? true : false);
+	public Map<String, Boolean> deleteUser(UJVO uj) {
+		Map<String, Boolean> map = new HashMap<>();
+		map.put("deleted", svc.deleteUser(uj) > 0 ? true : false);
 		return map;
 	}
-	 
-	
+
 //	=================================================================
 //	게시판
 //	글쓰기
-	@GetMapping("/badd") 
-		public String badd(@SessionAttribute(name="uid", required=false) String uerid, Model model) {
+	@GetMapping("/badd")
+	public String badd(@SessionAttribute(name = "uid", required = false) String uerid, Model model) {
 		UJVO user = svc.getUserById(uerid);
 		model.addAttribute("user", user);
 		return "board/addForm";
 	}
-	
+
 	@PostMapping("/badd")
 	@ResponseBody
-	public Map<String,Boolean> badd(@SessionAttribute(name="uid", required=false) 
-				@RequestParam(name = "mfiles", required=false) MultipartFile[] mfiles,
-					HttpServletRequest request,
-					BoardVO board,
-					Model model) {
+	public Map<String, Boolean> badd(
+			@SessionAttribute(name = "uid", required = false) @RequestParam(name = "mfiles", required = false) MultipartFile[] mfiles,
+			HttpServletRequest request, BoardVO board, Model model) {
 
-			Map<String,Boolean> map = new HashMap<>();
-			boolean added = svc.addBoard(request, board, mfiles);
-			model.addAttribute("board", board);
-			map.put("added", added);
-			return map;
+		Map<String, Boolean> map = new HashMap<>();
+		boolean added = svc.addBoard(request, board, mfiles);
+		model.addAttribute("board", board);
+		map.put("added", added);
+		return map;
 
 	}
-	
+
 //	게시판 리스트 + 페이지
-	@GetMapping("/list") 
-	public String boardList(@SessionAttribute(name="uid", required=false) String uid,PagingVO vo, Model model
-			, @RequestParam(value="nowPage", required=false)String nowPage
-			, @RequestParam(value="cntPerPage", required=false)String cntPerPage) {
-		
-		if(uid==null) {
+	@GetMapping("/list")
+	public String boardList(@SessionAttribute(name = "uid", required = false) String uid, PagingVO vo, Model model,
+			@RequestParam(value = "nowPage", required = false) String nowPage,
+			@RequestParam(value = "cntPerPage", required = false) String cntPerPage) {
+
+		if (uid == null) {
 			return "redirect:/uj/login";
 		} else {
-			
+
 			int total = svc.countBoard();
 			if (nowPage == null && cntPerPage == null) {
 				nowPage = "1";
 				cntPerPage = "5";
 			} else if (nowPage == null) {
 				nowPage = "1";
-			} else if (cntPerPage == null) { 
+			} else if (cntPerPage == null) {
 				cntPerPage = "5";
 			}
 			vo = new PagingVO(total, Integer.parseInt(nowPage), Integer.parseInt(cntPerPage));
 			model.addAttribute("paging", vo);
 			model.addAttribute("viewAll", svc.selectBoard(vo));
-			model.addAttribute("list",svc.boardList());
-			
+			model.addAttribute("list", svc.boardList());
+
 			return "board/list";
 		}
 	}
-	
+
 //	게시글 상세보기
-	@GetMapping("/detail") 
-	public String detail(@RequestParam int num, Model model) { 
+	@GetMapping("/detail")
+	public String detail(@SessionAttribute(name = "uid", required = false) String uid, @RequestParam int num, Model model) {
+		System.out.println("uid : "+uid);
 		BoardVO bbs = svc.bdetail(num);
 		model.addAttribute("bbs", bbs);
+		model.addAttribute("check", uid != null && bbs.getAuthor().equals(uid) ? true : false);	
+		System.out.println("boolean : "+uid != null && bbs.getAuthor().equals(uid) ? true : false);
 
 		return "board/detail";
 	}
-	
+
 //	게시글 수정
 	@GetMapping("/bedit")
-	public String edit(@RequestParam int num, Model model) {
-		BoardVO bbs = svc.getBoardByNum(num);
-		model.addAttribute("bbs", bbs);
+	public String edit(@SessionAttribute(name = "uid", required = false) String uid, @RequestParam int num, Model model,
+			BoardVO board) {
+			BoardVO bbs = svc.getBoardByNum(num);
+			model.addAttribute("bbs", bbs);
+			model.addAttribute("uid", uid);
+			
+			return "board/editBoard";
 
-		return "board/editBoard";
 	}
-	
+
 	@RequestMapping(value = "/bupdate")
 	@ResponseBody
-	public Map<String,Boolean> updateBoard(@SessionAttribute(name="uid", required=false) 
-					@RequestParam(name = "mfiles", required=false) MultipartFile[] mfiles,
-					HttpServletRequest request,
-					BoardVO board,
-					Model model) {
-		Map<String,Boolean> map = new HashMap<>();
+	public Map<String, Boolean> updateBoard(
+			@SessionAttribute(name = "uid", required = false) @RequestParam(name = "mfiles", required = false) MultipartFile[] mfiles,
+			HttpServletRequest request, BoardVO board, Model model) {
+		Map<String, Boolean> map = new HashMap<>();
 		boolean updated = svc.updateBoard(request, board, mfiles);
 		map.put("updated", updated);
 		return map;
 	}
-	
+
 //	파일 다운로드
 	@GetMapping("/download/{filename}")
-	public ResponseEntity<Resource> download( 
-			HttpServletRequest request,
-			@PathVariable String filename) {
+	public ResponseEntity<Resource> download(HttpServletRequest request, @PathVariable String filename) {
 //		Resource resource = (Resource)resourceLoader.getResource("WEB-INF/upload/"+filename);
-		Resource resource = (Resource)resourceLoader.getResource("/images/"+filename);
-		System.out.println("파일명:"+resource.getFilename());
-        String contentType = null;
-        try {
-            contentType = request.getServletContext().getMimeType(resource.getFile().getAbsolutePath());
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
- 
-        if(contentType == null) {
-            contentType = "application/octet-stream";
-        }
- 
-        return ResponseEntity.ok()
-                .contentType(MediaType.parseMediaType(contentType))
-                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + resource.getFilename() + "\"")
-                .body(resource);
+		Resource resource = (Resource) resourceLoader.getResource("/images/" + filename);
+		System.out.println("파일명:" + resource.getFilename());
+		String contentType = null;
+		try {
+			contentType = request.getServletContext().getMimeType(resource.getFile().getAbsolutePath());
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+		if (contentType == null) {
+			contentType = "application/octet-stream";
+		}
+
+		return ResponseEntity.ok().contentType(MediaType.parseMediaType(contentType))
+				.header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + resource.getFilename() + "\"")
+				.body(resource);
 	}
-	
+
 	@GetMapping("/file/download/{num}")
-	public ResponseEntity<Resource> fileDownload(@PathVariable int num,
-			HttpServletRequest request) {
+	public ResponseEntity<Resource> fileDownload(@PathVariable int num, HttpServletRequest request) {
 		// attach 테이블에서 att_num 번호를 이용하여 파일명을 구하여 위의 방법을 사용
 		String filename = svc.getFilename(num);
 //		Resource resource = (Resource)resourceLoader.getResource("WEB-INF/upload/"+filename);
-		Resource resource = (Resource)resourceLoader.getResource("/images/"+filename);
-        String contentType = null;
-        try {
-            contentType = request.getServletContext().getMimeType(resource.getFile().getAbsolutePath());
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
- 
-        if(contentType == null) {
-            contentType = "application/octet-stream";
-        }
- 
-        return ResponseEntity.ok()
-                .contentType(MediaType.parseMediaType(contentType))
-                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + resource.getFilename() + "\"")
-                .body(resource);
+		Resource resource = (Resource) resourceLoader.getResource("/images/" + filename);
+		String contentType = null;
+		try {
+			contentType = request.getServletContext().getMimeType(resource.getFile().getAbsolutePath());
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+		if (contentType == null) {
+			contentType = "application/octet-stream";
+		}
+
+		return ResponseEntity.ok().contentType(MediaType.parseMediaType(contentType))
+				.header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + resource.getFilename() + "\"")
+				.body(resource);
 	}
-	
+
 //	게시글 삭제
 	@PostMapping("/bdelete")
 	@ResponseBody
-	public Map<String,Boolean> deleteBoard(BoardVO board) {
-		Map<String,Boolean> map = new HashMap<>();
-		map.put("deleted", svc.deleteBoard(board)>0);
+	public Map<String, Boolean> deleteBoard(BoardVO board) {
+		Map<String, Boolean> map = new HashMap<>();
+		map.put("deleted", svc.deleteBoard(board) > 0);
 		return map;
 	}
-	
+
 //	파일 삭제
 	@PostMapping("/file/delete")
 	@ResponseBody
-	public Map<String,Boolean> deleteFileInfo(@RequestParam int num) {
+	public Map<String, Boolean> deleteFileInfo(@RequestParam int num) {
 		boolean deleted = svc.deleteFileInfo(num, resourceLoader);
-		Map<String,Boolean> map = new HashMap<>();
+		Map<String, Boolean> map = new HashMap<>();
 		map.put("deleted", deleted);
 		return map;
 	}
-	
-	
+
 //	=================================================================
 //	예약
 //	예약 리스트
-	@GetMapping("/rlist") 
-	public String rlist(@SessionAttribute(name="uid", required=false) String uid, Model model) {
-		
-		if(uid==null) {
+	@GetMapping("/rlist")
+	public String rlist(@SessionAttribute(name = "uid", required = false) String uid, Model model) {
+
+		if (uid == null) {
 			return "redirect:/uj/login";
 		} else {
 			List<UJRVO> rList = svc.rList();
-			model.addAttribute("list",svc.reserList());
-			model.addAttribute("rList",rList);
+			model.addAttribute("list", svc.reserList());
+			model.addAttribute("rList", rList);
 
 			return "game/rlist";
 		}
 	}
-	
+
 //	예약
-	@GetMapping("/reservation") 
-	public String reservation(@SessionAttribute(name="uid", required=false) String uerid,Model model, UJRVO ujr) {
+	@GetMapping("/reservation")
+	public String reservation(@SessionAttribute(name = "uid", required = false) String uerid, Model model, UJRVO ujr) {
 		UJVO user = svc.getUserById(uerid);
 		List<UJRVO> list = svc.reserList();
 		model.addAttribute("list", list);
 		model.addAttribute("user", user);
-		
+
 		return "game/reservation";
-		
+
 	}
-	
+
 	@PostMapping("/reservation")
 	@ResponseBody
 	public Map<String, Object> reservation(UJRVO ujr) {
 
 		Map<String, Object> map = new HashMap<>();
-		map.put("rv", svc.reservation(ujr)>0 ? true : false);
+		map.put("rv", svc.reservation(ujr) > 0 ? true : false);
 
 		return map;
 	}
-	
+
 //	예약 상세정보
-	@GetMapping("/rdetail") 
-	public String rdetail(@SessionAttribute(name="uid", required=false) String userid, Model model) { 
-	
+	@GetMapping("/rdetail")
+	public String rdetail(@SessionAttribute(name = "uid", required = false) String userid, Model model) {
+
 		UJVO user = svc.getUserById(userid);
 		model.addAttribute("user", user);
 		List<UJRVO> list = svc.getReser(userid);
 		model.addAttribute("list", list);
-		
+
 		return "game/rdetail";
 	}
-	
+
 //	예약취소
 	@PostMapping("/rDeleted")
 	@ResponseBody
-	public Map<String,Boolean> rDeleted(@RequestParam int num) {
+	public Map<String, Boolean> rDeleted(@RequestParam int num) {
 		boolean rDeleted = svc.rDeleted(num);
-		Map<String,Boolean> map = new HashMap<>();
+		Map<String, Boolean> map = new HashMap<>();
 		map.put("rDeleted", rDeleted);
 		return map;
 	}
-	
 
 }

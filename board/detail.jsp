@@ -3,16 +3,24 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%
+boolean check = (Boolean) request.getAttribute("check");
+%>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"
+	integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="
+	crossorigin="anonymous"></script>
 <title>글쓰기</title>
 <!-- Bootstrap CSS -->
-<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+<link rel="stylesheet"
+	href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+	integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+	crossorigin="anonymous">
 <link rel="stylesheet" type="text/css" href="/css/detail.css">
 </head>
 <body>
@@ -22,7 +30,7 @@
 				<FORM ENCTYPE="multipart/form-data">
 
 					<h4 class="mb-3">게시판</h4>
-					<input type=hidden id="author" name="author" value="${user.uid}">
+					 <input type=hidden id="author" name="author" value="${user.uid}">
 					<div class="row">
 						<div class="col-md-10 mb-3">
 							<input type="hidden" id="num" name="num" value="${bbs.num }">
@@ -32,25 +40,72 @@
 					<div class="mb-3">
 						<label for="title">글 제목 : </label><span>${bbs.title }</span>
 					</div>
+
+
+					<%
+					if (check) {
+					%>
 					<c:choose>
 						<c:when test="${fn:length(bbs.attach)>0}">
 							<c:forEach var="f" items="${bbs.attach}">
-								<a href="/uj/file/download/${f.num}"> <img src="/images/${f.filename}" width="100px" height="100px" alt="" class="thumb" /></a>
-								 &nbsp; <a class="link_del" href="javascript:delete_file(${f.num});">삭제</a>
+								<a href="/uj/file/download/${f.num}"> <img
+									src="/images/${f.filename}" width="100px" height="100px" alt=""
+									class="thumb" /></a>
+								 &nbsp; <a class="link_del"
+									href="javascript:delete_file(${f.num});">삭제</a>
 							</c:forEach>
 						</c:when>
 						<c:otherwise>
 							첨부파일 없음
 						</c:otherwise>
 					</c:choose>
+					<%
+					}
+					%>
+
+					<%
+					if (check != true) {
+					%>
+					<c:choose>
+						<c:when test="${fn:length(bbs.attach)>0}">
+							<c:forEach var="f" items="${bbs.attach}">
+								<a href="/uj/file/download/${f.num}"> <img
+									src="/images/${f.filename}" width="100px" height="100px" alt=""
+									class="thumb" /></a>
+							</c:forEach>
+						</c:when>
+						<c:otherwise>
+							첨부파일 없음
+						</c:otherwise>
+					</c:choose>
+					<%
+					}
+					%>
+
 					<div class="mb-3">
 						<label for="contents">내용 : </label> <span>${bbs.contents }</span>
 					</div>
-					
+
 					<div>
+						<%
+						if (check) {
+						%>
+
 						<button class="button1" type="button" onclick="go('${bbs.num }');">수정</button>
-						<button class="button1" type="button" onclick="del_board('${bbs.num }');">삭제</button>
-						<button class="button2" type="button" onclick="location.href='/uj/list';">목록</button>
+						<button class="button1" type="button"
+							onclick="del_board('${bbs.num }');">삭제</button>
+						<button class="button2" type="button"
+							style="margin-left: 21em; margin-top: -16em; position: static;"
+							onclick="location.href='/uj/list';">목록</button>
+						<%
+						} else {
+						%>	
+						<button class="button2" type="button"
+							style="margin-left: 33em; margin-top: -16em; position: static;"
+							onclick="location.href='/uj/list';">목록</button>
+						<% 	
+						}
+						%>
 					</div>
 				</form>
 			</div>

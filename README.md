@@ -77,6 +77,12 @@
 ![사진삭제](https://user-images.githubusercontent.com/100742360/163917970-1ad6b072-5913-4f40-a92c-db8f82c18e1a.PNG)
 ![삭제완료](https://user-images.githubusercontent.com/100742360/163917972-9c554a6c-b574-4e69-9d87-38d2f70e0428.PNG)
 
+# 게시글 삭제
+![삭제](https://user-images.githubusercontent.com/100742360/163956927-367aabeb-4980-4c3b-82dd-36badcdc74fc.PNG)
+
+# 다른 아이디로 로그인시 삭제 및 수정 불가
+![삭제불가](https://user-images.githubusercontent.com/100742360/163976237-b2902a78-4f03-465f-9f1f-c770a1998ecc.PNG)
+
 # 예약리스트
 ![예약리스트](https://user-images.githubusercontent.com/100742360/163919065-92d93c1e-f0f4-419f-99a0-1667a40e85af.PNG)
 
