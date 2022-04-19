@@ -2,10 +2,10 @@ package com.tjoeun.vo;
 
 public class AttachVO {
 	
-	private int num;
-	private int board_num;
-	private String filename;
-	private long filesize;
+	private int num; // 첨부파일 번호
+	private int board_num; // 게시글 번호
+	private String filename; // 파일 이름
+	private long filesize; // 파일크기
 	
 	public int getNum() {
 		return num;

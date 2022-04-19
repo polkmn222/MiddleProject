@@ -6,12 +6,12 @@ import java.util.List;
 
 public class BoardVO {
 	
-	private int num;
-	private String title;
-	private String author;
-	private String contents;
-	private java.sql.Date bdate;
-	public List<AttachVO> attach = new ArrayList<>();
+	private int num; // 게시글 번호
+	private String title; // 제목
+	private String author; // 작성자
+	private String contents; // 내용
+	private java.sql.Date bdate; // 날짜
+	public List<AttachVO> attach = new ArrayList<>(); // 첨부파일
 	
 	@Override
 	public String toString() {

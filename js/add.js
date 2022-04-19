@@ -53,6 +53,7 @@ function addUser() {
 	return false;
 }
 
+// 아이디 중복 체크
 function idchecked() {
 	var serData = $('#uid').serialize();
 	var uid_val = $("#uid").val();

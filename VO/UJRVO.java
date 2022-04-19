@@ -2,12 +2,12 @@ package com.tjoeun.vo;
 
 public class UJRVO {
 	
-	private int rnum;
-	private String rinfo;
-	private int rp;
-	private String ruid;
-	private String rtime;
-	private int total;
+	private int rnum;	// 예약 번호
+	private String rinfo; // 예약 날짜
+	private int rp;		// 예약 인원
+	private String ruid; // 예약 아이디
+	private String rtime; // 예약 시간
+	private int total;	// 총 인원수
 
 
 	public int getTotal() {
@@ -57,7 +57,5 @@ public class UJRVO {
 		this.ruid = ruid;
 	}
 	
-	
-	
-	
+
 }

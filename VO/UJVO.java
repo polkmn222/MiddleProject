@@ -7,13 +7,13 @@ import org.springframework.stereotype.Component;
 @Component 
 public class UJVO {
 	
-	private String uid; 
-	private String pwd;
-	private String name;
-	private String phone;
-	private String address;
-	private String root;
-	private String email;
+	private String uid; // 아이디
+	private String pwd; // 비밀번호
+	private String name; // 이름
+	private String phone; // 전화번호
+	private String address; // 주소
+	private String root;	// 가입경로
+	private String email;	// 이메일
 	
 	@Override
 	public int hashCode() {

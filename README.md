@@ -1,11 +1,13 @@
 # MiddleProject
 개인프로젝트   
    
-목표 : 친구가 근무하는 초밥집 예약사이트 만들기   
+목표 : 친구가 근무하는 초밥집 예약사이트(반응형, 모바일) 만들기   
    
+기간 : 2022.04.05 ~    
+      
 실행 프로그램 : Eclipse, MySQL   
    
-사용 언어 : Java, Javascript, SQL   
+사용 언어 : Java, Javascript, SQL, CSS(bootstrap, mobilejquery)        
          
 01. 회원가입 구현   
 02. 로그인 구현   
@@ -43,5 +45,5 @@
 34. 로그인시 화면변경 구현   
 35. 비밀번호 찾기 구현    
    
-보안   
+보안 요구 사항   
 css 미숙 및 보강  
