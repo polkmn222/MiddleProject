@@ -3,6 +3,7 @@ package com.tjoeun.dao;
 import java.util.List;
 import java.util.Map;
 
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -10,6 +11,7 @@ import com.tjoeun.mapper.UJMapper;
 import com.tjoeun.vo.AttachVO;
 import com.tjoeun.vo.BoardVO;
 import com.tjoeun.vo.PagingVO;
+import com.tjoeun.vo.CommentVO;
 import com.tjoeun.vo.UJRVO;
 import com.tjoeun.vo.UJVO;
 
@@ -158,5 +160,22 @@ public class UJDAO {
 	public boolean rDeleted(int num) {
 		return mapper.rDeleted(num) > 0;
 	}
+	
+//	=================================================================
+//	댓글
+//	특정글 댓글 리스트
+	public List<CommentVO> cList(int comment_num) { 
+		return mapper.cList(comment_num); 
+	} 
+//	댓글 등록
+	public boolean cCreate(CommentVO comment)  { 
+		return mapper.cCreate(comment)>0; 
+	}  
+	
+//	댓글 삭제
+	public boolean cDelete(int cnum)  { 
+		return mapper.cDelete(cnum)>0; 
+		
+	} 
 
 }

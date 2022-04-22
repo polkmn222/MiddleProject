@@ -18,6 +18,7 @@ import com.tjoeun.dao.UJDAO;
 import com.tjoeun.vo.AttachVO;
 import com.tjoeun.vo.BoardVO;
 import com.tjoeun.vo.PagingVO;
+import com.tjoeun.vo.CommentVO;
 import com.tjoeun.vo.UJRVO;
 import com.tjoeun.vo.UJVO;
 
@@ -315,6 +316,25 @@ public class UJService {
 	public boolean rDeleted(int num) {
 
 		return dao.rDeleted(num);
+	}
+	
+//	=================================================================
+//	댓글
+//	특정글 댓글 리스트
+	public List<CommentVO> cList(int comment_num) {
+
+		return dao.cList(comment_num);
+	}
+//	댓글 쓰기
+	public boolean cCreate(CommentVO comment) {
+
+		return dao.cCreate(comment);
+	}
+	
+//	댓글 삭제
+	public boolean cDelete(int cnum) {
+
+		return dao.cDelete(cnum);
 	}
 
 }

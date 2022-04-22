@@ -166,4 +166,26 @@ ON DUPLICATE KEY UPDATE rtotal = rtotal + rp;
         FROM ujrt
       Group BY rinfo, rtime
       ORDER BY rinfo DESC;
-      	
+
+CREATE TABLE ujreply ( 
+	reply_no INT NOT NULL AUTO_INCREMENT, 
+    article_no INT DEFAULT 0, 
+    reply_text VARCHAR(1000), 
+    reply_writer VARCHAR(50), 
+    reg_date DATE, 
+    PRIMARY KEY (reply_no) );
+
+DROP TABLE ujreply;
+SELECT * FROM ujreply;
+DESC ujreply;
+SELECT * FROM ujboard;
+ALTER TABLE ujreply ADD CONSTRAINT FK_ARTICLE FOREIGN KEY (article_no) REFERENCES ujboard (num);
+
+CREATE TABLE ujcomment(
+  cnum INT NOT NULL AUTO_INCREMENT,
+  comment_num INT,
+  comment_writer VARCHAR(50),
+  comment VARCHAR(100) NOT NULL,  
+  comment_date Date,   
+  PRIMARY KEY (cnum));
+SELECT * FROM ujcomment;  

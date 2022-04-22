@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -18,7 +19,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttribute;
@@ -29,6 +32,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.tjoeun.svc.UJService;
 import com.tjoeun.vo.BoardVO;
 import com.tjoeun.vo.PagingVO;
+import com.tjoeun.vo.CommentVO;
 import com.tjoeun.vo.UJRVO;
 import com.tjoeun.vo.UJVO;
 
@@ -245,27 +249,17 @@ public class UJController {
 		}
 	}
 
-//	게시글 상세보기
-	@GetMapping("/detail")
-	public String detail(@SessionAttribute(name = "uid", required = false) String uid, @RequestParam int num, Model model) {
-		System.out.println("uid : "+uid);
-		BoardVO bbs = svc.bdetail(num);
-		model.addAttribute("bbs", bbs);
-		model.addAttribute("check", uid != null && bbs.getAuthor().equals(uid) ? true : false);	
-		System.out.println("boolean : "+uid != null && bbs.getAuthor().equals(uid) ? true : false);
 
-		return "board/detail";
-	}
 
 //	게시글 수정
 	@GetMapping("/bedit")
 	public String edit(@SessionAttribute(name = "uid", required = false) String uid, @RequestParam int num, Model model,
 			BoardVO board) {
-			BoardVO bbs = svc.getBoardByNum(num);
-			model.addAttribute("bbs", bbs);
-			model.addAttribute("uid", uid);
-			
-			return "board/editBoard";
+		BoardVO bbs = svc.getBoardByNum(num);
+		model.addAttribute("bbs", bbs);
+		model.addAttribute("uid", uid);
+
+		return "board/editBoard";
 
 	}
 
@@ -403,5 +397,48 @@ public class UJController {
 		map.put("rDeleted", rDeleted);
 		return map;
 	}
+
+//	=================================================================
+//	댓글
+//	게시글 상세보기, 댓글
+	@GetMapping("/detail")
+	public String detail(@SessionAttribute(name = "uid", required = false) String uid, @RequestParam int num,
+			Model model,CommentVO comment) {
+		UJVO user = svc.getUserById(uid);
+		model.addAttribute("user", user);
+		BoardVO bbs = svc.bdetail(num);
+		List<CommentVO> cList = svc.cList(num);
+		
+		model.addAttribute("cList", cList);
+		model.addAttribute("bbs", bbs);
+		model.addAttribute("check", uid != null && bbs.getAuthor().equals(uid) ? true : false);
+		model.addAttribute("reply", comment);
+		return "board/detail";
+	}
+	
+//	댓글 등록
+	@PostMapping("/cadd")
+	@ResponseBody
+	public Map<String, Boolean> cadd(@SessionAttribute(name = "uid", required = false)String uid, Model model, CommentVO comment) {
+
+		Map<String, Boolean> map = new HashMap<>();
+		boolean cadd = svc.cCreate(comment);
+		map.put("cadd", cadd);
+		return map;
+
+	}
+	
+//	댓글 삭제
+	@PostMapping("/cDeleted")
+	@ResponseBody
+	public Map<String, Boolean> cDeleted(@RequestParam int num) {
+		boolean cDeleted = svc.cDelete(num);
+		Map<String, Boolean> map = new HashMap<>();
+		map.put("cDeleted", cDeleted);
+		return map;
+	}
+	
+	
+
 
 }

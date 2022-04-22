@@ -1,6 +1,6 @@
 // 수정
+ 
 function go(num) {
-
 	var url = "/uj/bedit?num=" + num;
 	location.href = url;
 }
@@ -71,4 +71,60 @@ function setThumbnail(event) {
 		console.log(image);
 		reader.readAsDataURL(image);
 	}
+}
+
+// 댓글
+function reply() {
+
+	if (!confirm('글을 작성하시겠습니까?')) {
+		alert('정상적으로 취소했습니다.');
+		return false;
+	}
+
+	var serData = $('#commentAdd').serialize();
+	$.ajax({
+		url: '/uj/cadd',
+		method: 'post',
+		cache: false,
+		data: serData,
+		dataType: 'json',
+		success: function(res) {
+			if (res.cadd) {
+				alert('저장 성공!');
+				location.reload();
+			} else {
+				alert('저장실패.');
+				location.reload();
+				return false;
+			}
+		},
+		error: function(xhr, status, err) {
+			alert('err' + err);
+		}
+	});
+	return false;
+}
+
+// 댓글 삭제
+function cDelete(num) {
+
+	if (!confirm('정말 삭제 하시겠습니까?')) {
+		return;
+	}
+	var obj = {};
+	obj.num = num;
+	$.ajax({
+		url: '/uj/cDeleted',
+		method: 'post',
+		cache: false,
+		data: obj,
+		dataType: 'json',
+		success: function(res) {
+			alert(res.cDeleted ? '삭제 성공' : '삭제 실패!');
+			location.reload();
+		},
+		error: function(xhr, status, err) {
+			alert('에러 : ' + err);
+		}
+	});
 }

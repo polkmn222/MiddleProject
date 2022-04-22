@@ -12,15 +12,10 @@ boolean check = (Boolean) request.getAttribute("check");
 <meta charset="UTF-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"
-	integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="
-	crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
 <title>글쓰기</title>
 <!-- Bootstrap CSS -->
-<link rel="stylesheet"
-	href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
-	integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
-	crossorigin="anonymous">
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 <link rel="stylesheet" type="text/css" href="/css/detail.css">
 </head>
 <body>
@@ -30,18 +25,15 @@ boolean check = (Boolean) request.getAttribute("check");
 				<FORM ENCTYPE="multipart/form-data">
 
 					<h4 class="mb-3">게시판</h4>
-					 <input type=hidden id="author" name="author" value="${user.uid}">
 					<div class="row">
 						<div class="col-md-10 mb-3">
-							<input type="hidden" id="num" name="num" value="${bbs.num }">
+							 <input type="hidden" id="num" name="num" value="${bbs.num }"> 
 							<label for="author">작성자 : </label><span> ${bbs.author } </span>
 						</div>
 					</div>
 					<div class="mb-3">
 						<label for="title">글 제목 : </label><span>${bbs.title }</span>
 					</div>
-
-
 					<%
 					if (check) {
 					%>
@@ -108,6 +100,32 @@ boolean check = (Boolean) request.getAttribute("check");
 						%>
 					</div>
 				</form>
+				 <form id = "commentAdd" name = "commentAdd">
+					<input type="hidden" id="num" name="num" value="${bbs.num }"> 
+					<input type="hidden" id="comment_writer" name="comment_writer" value="${user.uid}">
+					<input type="hidden" id="comment_num" name="comment_num" value="${bbs.num}">
+					<label for="comment_writer">작성자 : </label><span> ${user.uid } </span><br>
+					<label for="comment">내용</label> <input type="text" id="comment" name="comment" placeholder="내용을 입력해주세요." class="line" required>
+						
+						<button type = "button" onclick="reply();">작성</button>
+			
+			
+			<table class="bbsList" summary="">
+				<tr>
+					<c:forEach var="c" items="${cList }">
+						<tr>
+							<th>${c.comment_writer } </th>
+							<th>${c.comment}</th> 
+							<th>${c.comment_date }
+							<c:if test="${uid==c.comment_writer}">						
+							&nbsp;<a class="link_del" href="javascript:cDelete(${c.cnum});">삭제</a>
+							</c:if>
+							</th>
+						</tr>
+					</c:forEach>
+				</tr>
+			</table>
+				</form> 
 			</div>
 		</div>
 		<footer class="my-3 text-center text-small">
