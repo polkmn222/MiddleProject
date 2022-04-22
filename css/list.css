@@ -1292,40 +1292,48 @@ textarea, .inp, a:link, a:visited, a:hover, a:active {
 @media screen and (min-width : 321px) and (max-width : 767px) and
 	(orientation : portrait ) {
 	.bbsList {
-		width: 90vmin;
-		height: 90vmin;
-	}
-}
-/* iPad Pro 세로 */
-@media screen and (min-width : 768px) and (orientation : portrait ) {
-	.bbsList {
+		/* width: 90vmin;
+		height: 90vmin; */
 		width: 100%;
 		height: 100%;
 	}
 }
+/* iPad Pro 세로 */
+ @media screen and (min-width : 768px) and (orientation : portrait ) {
+	.bbsList {
+		width: 100%;
+		height: 100%;
+	}
+} 
 /* 스마트폰 가로 */
-@media screen and (max-width : 767px) and (orientation : landscape ) {
+ @media screen and (max-width : 767px) and (orientation : landscape ) {
 	.bbsList {
-		width: 70vmax;
-		height: 60vmin;
+		/* width: 70vmax;
+		height: 60vmin; */
+		width: 100%;
+		height: 100%;
 	}
-}
+} 
 /* 태블릿 가로 */
-@media screen and (min-width : 768px) and (max-width : 1365px) and
+ @media screen and (min-width : 768px) and (max-width : 1365px) and
 	(orientation : landscape ) {
 	.bbsList {
-		width: 90vmax;
-		height: 70vmin;
+		/* width: 90vmax;
+		height: 70vmin; */
+		width: 100%;
+		height: 100%;
 	}
-}
+} 
 /* iPad Pro 가로, 데스크탑 */
-@media screen and (min-width : 1366px) and (max-width : 1599px) and
+ @media screen and (min-width : 1366px) and (max-width : 1599px) and
 	(orientation : landscape ) {
 	.bbsList {
-		width: 90vmax;
-		height: 80vmin;
+		/* width: 90vmax;
+		height: 80vmin; */
+		width: 100%;
+		height: 100%;
 	}
-}
+} 
 /* 큰 모니터 16:9 */
 @media screen and (min-width : 1600px) {
 	.bbsList {

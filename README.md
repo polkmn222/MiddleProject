@@ -83,6 +83,12 @@
 # 다른 아이디로 로그인시 삭제 및 수정 불가
 ![삭제불가](https://user-images.githubusercontent.com/100742360/163976237-b2902a78-4f03-465f-9f1f-c770a1998ecc.PNG)
 
+# 댓글
+![댓글1](https://user-images.githubusercontent.com/100742360/164586893-50c3cf3b-b9ce-48e6-b389-405ec0df37a9.PNG)
+![댓글2](https://user-images.githubusercontent.com/100742360/164586899-cfabc1bd-4757-4d67-8a0c-aaca080a2cec.PNG)
+![댓글3](https://user-images.githubusercontent.com/100742360/164586902-a19154f0-9d59-47c8-94b6-388e707ce76c.PNG)
+![댓글4](https://user-images.githubusercontent.com/100742360/164586903-67dc7d72-8490-4195-b3ec-820831cbe750.PNG)
+
 # 예약리스트
 ![예약리스트](https://user-images.githubusercontent.com/100742360/163919065-92d93c1e-f0f4-419f-99a0-1667a40e85af.PNG)
 
@@ -153,7 +159,10 @@
 32. 파일 다운로드 구현   
 33. 파일 삭제 구현   
 34. 로그인시 화면변경 구현   
-35. 비밀번호 찾기 구현    
+35. 비밀번호 찾기 구현  
+36. 댓글 등록   
+37. 댓글 삭제     
    
 # 보안 요구 사항   
-css 미숙 및 보강  
+css 미숙 및 보강
+참고 사이트 기록 남기기  

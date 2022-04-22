@@ -41,10 +41,8 @@ boolean check = (Boolean) request.getAttribute("check");
 						<c:when test="${fn:length(bbs.attach)>0}">
 							<c:forEach var="f" items="${bbs.attach}">
 								<a href="/uj/file/download/${f.num}"> <img
-									src="/images/${f.filename}" width="100px" height="100px" alt=""
-									class="thumb" /></a>
-								 &nbsp; <a class="link_del"
-									href="javascript:delete_file(${f.num});">삭제</a>
+									src="/images/${f.filename}" width="100px" height="100px" class="thumb" /></a>
+								 &nbsp; <a class="link_del" href="javascript:delete_file(${f.num});">삭제</a>
 							</c:forEach>
 						</c:when>
 						<c:otherwise>
@@ -79,25 +77,11 @@ boolean check = (Boolean) request.getAttribute("check");
 					</div>
 
 					<div>
-						<%
-						if (check) {
-						%>
-
-						<button class="button1" type="button" onclick="go('${bbs.num }');">수정</button>
-						<button class="button1" type="button"
-							onclick="del_board('${bbs.num }');">삭제</button>
-						<button class="button2" type="button"
-							style="margin-left: 21em; margin-top: -16em; position: static;"
-							onclick="location.href='/uj/list';">목록</button>
-						<%
-						} else {
-						%>	
-						<button class="button2" type="button"
-							style="margin-left: 33em; margin-top: -16em; position: static;"
-							onclick="location.href='/uj/list';">목록</button>
-						<% 	
-						}
-						%>
+						<c:if test="${uid==bbs.author}">
+							<button class="button1" type="button" onclick="go('${bbs.num }');">수정</button>
+							<button class="button1" type="button" onclick="del_board('${bbs.num }');">삭제</button>
+						</c:if>
+							<button class="button1" type="button" onclick="location.href='/uj/list';">목록</button>
 					</div>
 				</form>
 				 <form id = "commentAdd" name = "commentAdd">
@@ -105,12 +89,19 @@ boolean check = (Boolean) request.getAttribute("check");
 					<input type="hidden" id="comment_writer" name="comment_writer" value="${user.uid}">
 					<input type="hidden" id="comment_num" name="comment_num" value="${bbs.num}">
 					<label for="comment_writer">작성자 : </label><span> ${user.uid } </span><br>
-					<label for="comment">내용</label> <input type="text" id="comment" name="comment" placeholder="내용을 입력해주세요." class="line" required>
+					<label for="comment">댓글</label> <input type="text" id="comment" name="comment" placeholder="댓글을 입력해주세요." class="line" required>
 						
 						<button type = "button" onclick="reply();">작성</button>
 			
 			
 			<table class="bbsList" summary="">
+			<thead class="head">
+				<tr>
+					<th>글쓴이</th>
+					<th>내용</th>
+					<th>날짜</th>
+				</tr>
+			</thead>
 				<tr>
 					<c:forEach var="c" items="${cList }">
 						<tr>

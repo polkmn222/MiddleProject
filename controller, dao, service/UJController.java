@@ -336,6 +336,46 @@ public class UJController {
 		map.put("deleted", deleted);
 		return map;
 	}
+	
+//	=================================================================
+//	댓글
+//	게시글 상세보기, 댓글
+	@GetMapping("/detail")
+	public String detail(@SessionAttribute(name = "uid", required = false) String uid, @RequestParam int num,
+			Model model,CommentVO comment) {
+		UJVO user = svc.getUserById(uid);
+		model.addAttribute("user", user);
+		BoardVO bbs = svc.bdetail(num);
+		List<CommentVO> cList = svc.cList(num);
+		
+		model.addAttribute("cList", cList);
+		model.addAttribute("bbs", bbs);
+		model.addAttribute("check", uid != null && bbs.getAuthor().equals(uid) ? true : false);
+		model.addAttribute("reply", comment);
+		return "board/detail";
+	}
+	
+//	댓글 등록
+	@PostMapping("/cadd")
+	@ResponseBody
+	public Map<String, Boolean> cadd(@SessionAttribute(name = "uid", required = false)String uid, Model model, CommentVO comment) {
+
+		Map<String, Boolean> map = new HashMap<>();
+		boolean cadd = svc.cCreate(comment);
+		map.put("cadd", cadd);
+		return map;
+
+	}
+	
+//	댓글 삭제
+	@PostMapping("/cDeleted")
+	@ResponseBody
+	public Map<String, Boolean> cDeleted(@RequestParam int num) {
+		boolean cDeleted = svc.cDelete(num);
+		Map<String, Boolean> map = new HashMap<>();
+		map.put("cDeleted", cDeleted);
+		return map;
+	}
 
 //	=================================================================
 //	예약
@@ -398,47 +438,6 @@ public class UJController {
 		return map;
 	}
 
-//	=================================================================
-//	댓글
-//	게시글 상세보기, 댓글
-	@GetMapping("/detail")
-	public String detail(@SessionAttribute(name = "uid", required = false) String uid, @RequestParam int num,
-			Model model,CommentVO comment) {
-		UJVO user = svc.getUserById(uid);
-		model.addAttribute("user", user);
-		BoardVO bbs = svc.bdetail(num);
-		List<CommentVO> cList = svc.cList(num);
-		
-		model.addAttribute("cList", cList);
-		model.addAttribute("bbs", bbs);
-		model.addAttribute("check", uid != null && bbs.getAuthor().equals(uid) ? true : false);
-		model.addAttribute("reply", comment);
-		return "board/detail";
-	}
-	
-//	댓글 등록
-	@PostMapping("/cadd")
-	@ResponseBody
-	public Map<String, Boolean> cadd(@SessionAttribute(name = "uid", required = false)String uid, Model model, CommentVO comment) {
-
-		Map<String, Boolean> map = new HashMap<>();
-		boolean cadd = svc.cCreate(comment);
-		map.put("cadd", cadd);
-		return map;
-
-	}
-	
-//	댓글 삭제
-	@PostMapping("/cDeleted")
-	@ResponseBody
-	public Map<String, Boolean> cDeleted(@RequestParam int num) {
-		boolean cDeleted = svc.cDelete(num);
-		Map<String, Boolean> map = new HashMap<>();
-		map.put("cDeleted", cDeleted);
-		return map;
-	}
-	
-	
 
 
 }
