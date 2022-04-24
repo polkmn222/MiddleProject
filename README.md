@@ -12,7 +12,11 @@
 실행 프로그램 : Eclipse, MySQL   
    
 사용 언어 : Java, Javascript, SQL, CSS(bootstrap, mobilejquery), SpringFramwork           
-       
+     
+# 동영상
+https://youtu.be/OGNnKMBrILc   
+[자막.txt](https://github.com/polkmn222/MiddleProject/files/8549017/default.txt)   
+  
 # 홈       
 ![home0](https://user-images.githubusercontent.com/100742360/163910594-872f0385-d063-41cd-8bcd-48b6fa4c6d64.png)   
    
@@ -168,5 +172,6 @@
 37. 댓글 삭제     
    
 # 보안 요구 사항   
-css 미숙 및 보강
-참고 사이트 기록 남기기  
+css 미숙 및 보강   
+참고 사이트 기록 남기기   
+카카오 로그인 구현(도메인 필요)      
