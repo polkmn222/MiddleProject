@@ -65,7 +65,7 @@
 					<div class="mb-4">
 						<button class="btn btn-primary btn-lg btn-block" onclick="updateUser();">수정</button>
 						<button class="btn btn-primary btn-lg btn-block" type="reset">초기화</button>
-						<button class="btn btn-primary btn-lg btn-block" onclick="del_user('${user.uid }');">삭제</button>
+						<button class="btn btn-primary btn-lg btn-block" onclick="del_user('${user.uid }');">탈퇴</button>
 						<button class="btn btn-primary btn-lg btn-block" onclick="location.href='/uj/home';">홈</button>
 					</div>
 		</form>

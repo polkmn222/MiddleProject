@@ -1,19 +1,31 @@
 # MiddleProject
 개인프로젝트   
    
+이름 : 박상열   
+   
 목표 : 친구가 근무하는 초밥집 예약사이트(반응형, 모바일) 만들기   
    
 기간 : 2022.04.05 ~ 2022.04.22      
-      
+  
+운영체제 : Window10   
+       
 실행 프로그램 : Eclipse, MySQL   
    
-사용 언어 : Java, Javascript, SQL, CSS(bootstrap, mobilejquery)        
-    
+사용 언어 : Java, Javascript, SQL, CSS(bootstrap, mobilejquery), SpringFramwork           
+       
 # 홈       
 ![home0](https://user-images.githubusercontent.com/100742360/163910594-872f0385-d063-41cd-8bcd-48b6fa4c6d64.png)   
    
 # 메뉴
 ![메뉴](https://user-images.githubusercontent.com/100742360/163910960-ef4c1823-2f92-4b54-8388-0a7fdc8d4aeb.PNG)   
+
+# 소개
+![소개](https://user-images.githubusercontent.com/100742360/164954208-f498e062-ac41-4c66-bf51-5e705e25a8b7.PNG)
+
+# 오시는길
+![오시는길](https://user-images.githubusercontent.com/100742360/164954193-25668e12-dc5b-4e96-94c0-96e102656d5b.PNG)
+![길찾기 링크](https://user-images.githubusercontent.com/100742360/164954195-2ce9a950-c403-4b3b-9f51-4b6400cfa565.PNG)
+
    
 # 로그인 화면
 ![로그인](https://user-images.githubusercontent.com/100742360/163911244-6863776d-c087-42fa-9343-b33999443d2e.PNG)   
@@ -105,25 +117,17 @@
 ![예약실패](https://user-images.githubusercontent.com/100742360/163927698-30a16112-c2db-4fe4-9323-430336d78ddc.PNG)
 ![예약실패1](https://user-images.githubusercontent.com/100742360/163927700-3df87381-1a0b-44f4-8035-c307c33b85b5.PNG)
 
-
 # 나의 예약
 ![나의예약](https://user-images.githubusercontent.com/100742360/163927708-eeab68db-29fa-45e7-ae09-e9848a209d0a.PNG)
-
-
 
 # 예약 취소
 ![예약취소](https://user-images.githubusercontent.com/100742360/163927714-07d8722f-e65b-450b-98c4-a282509adfbd.PNG)
 ![예약취소2](https://user-images.githubusercontent.com/100742360/163927720-b97134c9-24ae-4476-a489-cff8ec0d3f79.PNG)
 
-
 # 예약 취소 후
 ![예약취소3](https://user-images.githubusercontent.com/100742360/163927724-a69ce635-38c3-4bb3-822f-aab32cb1389f.PNG)
-
    
-
-
-
-
+      
 # 구현 로직
 01. 회원가입 구현   
 02. 로그인 구현   
