@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.tjoeun.mapper.LogMapper">
+
+    <insert id="addLog" 
+    	parameterType="String">
+    	INSERT INTO log VALUES(null, #{contents})
+    </insert>
+    
+    <update id="updateLog"
+    	parameterType="map">
+    	UPDATE log SET contents=#{contents}
+    	WHERE num=#{num}
+    </update>
+    
+    <select id="list" 
+    	resultType="map">
+    	SELECT * FROM log
+    </select>
+    
+    <select id="getLog"
+    	parameterType="Integer"
+    	resultType="map">
+    	SELECT * FROM log WHERE num=#{num}	
+    </select>
+    
+    <delete id="delete"
+    	parameterType="Integer">
+    	DELETE FROM log WHERE num=#{num}
+    </delete>
+    
+    <insert id="add_get_ai"
+    	useGeneratedKeys="true" keyProperty="num"
+    	parameterType="map">
+    	INSERT INTO log (contents) VALUES (#{contents})
+    </insert>
+    
+</mapper>

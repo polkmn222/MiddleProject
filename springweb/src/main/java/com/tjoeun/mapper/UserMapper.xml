@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.tjoeun.mapper.UserMapper">
+	
+	<select id = "login"
+		resultType="String" 
+       	parameterType="com.tjoeun.vo.User">
+       	SELECT uid
+       	FROM users
+       	WHERE uid = #{uid} AND pwd = #{pwd}
+       </select>
+	
+    <select id="getUserById" 
+       resultType="com.tjoeun.vo.User" 
+       parameterType="String">
+        SELECT uid,pwd,name,phone
+        FROM users
+        WHERE uid = #{uid}  <!-- #{uid} = ? -->
+    </select>
+    
+    <select id="getUserList" 
+       resultType="com.tjoeun.vo.User">
+        SELECT uid,pwd,name,phone
+        FROM users
+    </select>
+    
+    <select id="getUserMap" 
+       resultType="map">
+        SELECT uid,pwd,name,phone
+        FROM users
+    </select>
+    
+    
+    
+    <!--insert 요소는 resultType 속성이 없어도 생성된 행의 수(정수)가 리턴됨-->
+    <insert id="insertUser" 
+       parameterType="com.tjoeun.vo.User">
+       INSERT INTO users VALUES(#{uid},#{pwd},#{name},#{phone})
+    </insert>
+    
+   <!-- 한 행을 추가하고 자동증가필드의 값을 파라미터 객체의 num변수에 할당-->
+   <insert id="addAndGetKey" useGeneratedKeys="true" keyProperty="num"
+        parameterType="com.tjoeun.vo.User">
+      INSERT INTO users VALUES(NULL,#{name},#{phone},#{email})
+   </insert>
+
+    <!--update 요소는 resultType 속성이 없어도 변경된 행의 수(정수)가 리턴됨-->
+    <update id="updateUser" 
+       parameterType="com.tjoeun.vo.User">
+       UPDATE users 
+       SET phone=#{phone}
+       WHERE uid=#{uid}
+    </update>
+    
+    <update id="updateByMap" 
+       parameterType="map">
+       UPDATE users 
+       SET phone=#{phone}
+       WHERE uid=#{uid}
+    </update>
+
+    <!--delete 요소는 resultType 속성이 없어도 변경된 행의 수(정수)가 리턴됨-->
+    <delete id="deleteUser" parameterType="String">
+       DELETE FROM users WHERE uid=#{uid}
+    </delete>
+</mapper>

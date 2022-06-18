@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.tjoeun.mapper.BoardMapper">
+
+    <insert id="addBoard" 
+    	parameterType="com.tjoeun.vo.BoardVO"
+    	useGeneratedKeys = "true" keyProperty="num">
+    	INSERT INTO board VALUES(null, #{title},#{author},#{contents},NOW())
+    </insert>
+
+<!--     <insert id="addFileInfo"
+    	parameterType="map">
+    	INSERT INTO attach VALUES(null, #{board_num}, #{filename}, #{filesize})
+    	</insert> -->
+    	
+    	<insert id="addFileInfo"  	parameterType="com.tjoeun.vo.AttachVO">
+    	INSERT INTO attach VALUES(null, #{board_num}, #{filename}, #{filesize})
+    	</insert>
+    	
+    <select id="boardList"
+    	resultType = "map">
+    	SELECT * FROM board b LEFT OUTER JOIN attach a
+    	ON b.num = a.board_num
+    </select>	
+    	
+    <select id="detail"
+    	resultType="map"
+    	parameterType="Integer">
+    	SELECT * FROM board b
+		LEFT OUTER JOIN attach a
+		ON b.num=a.board_num
+		WHERE b.num = #{num};
+    </select>
+    
+    <select id="getFilename"
+    	parameterType="Integer"
+    	resultType="String">
+    	SELECT filename FROM attach WHERE att_num=#{num}
+    </select>
+    
+    <select id="getUserByNum" 
+       resultType="com.tjoeun.vo.BoardVO" 
+       parameterType="Integer">
+        SELECT *
+        FROM board
+        WHERE num = #{num}  <!-- #{uid} = ? -->
+    </select>
+    
+    
+    <update id="updateBoard"
+    	parameterType="map">
+    	UPDATE board SET contents=#{contents}
+    	WHERE num=#{num}
+    </update>
+    
+     <update id="updateBoard2" 
+       parameterType="com.tjoeun.vo.BoardVO">
+       UPDATE board SET contents=#{contents}
+    	WHERE num=#{num}
+    </update>
+    
+    
+    
+	<delete id="deleteFileInfo"
+    	parameterType="Integer">
+    	DELETE FROM attach WHERE att_num=#{num}
+    </delete>
+    
+    <delete id="deleted"
+    	parameterType="Integer">
+    	DELETE FROM board WHERE num=#{num}
+    </delete>
+    
+   
+    
+</mapper>

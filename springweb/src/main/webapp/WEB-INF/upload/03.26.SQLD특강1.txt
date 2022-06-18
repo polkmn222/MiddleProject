@@ -1,0 +1,118 @@
+오라클 닷컴 리소스 다운로드 
+
+오라클 데이터베이스 19.3 64비트.
+제품 설치 비밀번호 간단하게 
+15퍼센트에서 15분정도 걸리면 설치 안된다 보면된다.
+cmd에 sqlplus 쳐서 나오면 설치가 된거다.
+압축풀때 안전폴더에 풀기 X 그냥 예.
+C드라이브에 설치하기
+
+
+sql 디벨로퍼 21.4버전 JDK 8 버전.
+압축 풀고, 명령 프롬포트 cmd 관리자권한 실행
+SQLPLUS "/AS SYSDBA"
+CREAT USER SQLD0326 IDENTIFIED BY 1234: 생성
+-- 안될 시
+CAEAT USER C##SQLD0326 --
+GRANT DBA TO SQLD0326: 권한부여 
+CONNECT SQLD0326/1234
+SHOW USER
+
+엑셀에서 데이터 가져오기
+테이블 우클릭 데이터 임포트
+헤더는 컬럼명지정
+데이터 익스포트
+데이터 워크시트 : 데이터
+질의 워크시트 : 쿼리문
+
+SQL 기본 -1
+SQL 외워야한다. 1~2문제 꼭나옴
+
+1. 데이터 정의 언어 - ( DDL : Data Definition Language )
+테이블이나 관계의 구조를 생성하는데 사용하며 CREATE, ALTER, DROP,TRUNCATE 문 등이 있다.
+ - CREATE : 컬럼 추가
+ - ALTER : 존재하는 데이터 개체 변경
+ - DROP 컬럼 삭제 
+ - RENAME, 
+ - TRUNCATE 테이블 데이터 삭제(삭제시 돌이킬 수 없다.)
+
+2. 데이터 조작 언어 - ( DML : Data Manipulation Language ) 
+테이블에 데이터 검색, 삽입, 수정, 삭제하는 데 사용하며 SELECT, UPDATE, DELETE, INSERT문 등이 있다.
+ - INSERT - 데이터베이스에서 데이터를 등록(삽입).
+ - UPDATE - 데이터베이스의 데이터를 업데이트.
+ - DELETE - 데이터베이스의 데이터를 삭제.
+ - SELECT - 데이터베이스에서 데이터를 검색.
+
+
+3. 데이터 제어 언어 - ( DCL : Data Control Language)
+데이터의 사용 권한을 관리하는 데 사용하며 GRANT, REVOKE 문 등이 있다.
+ - GRANT : 특정 데이터베이스 사용자에게 특정 작업에 대한 수행 권한을 부여한다.
+ - REVOKE : 특정 데이터베이스 사용자에게 특정 작업에 대한 수행 권한을 박탈 or 회수 한다.
+
+4. TCL(TRANSACTION CONTROL LANGUAGE) 테이블 제어
+ - COMMIT : 제어하고, 
+ - ROLLBACK : 돌아가고 , 
+ - SAVEPOINT : 특정저장 위치지정 
+
+SQLD 자격증 회원가입 및 신청
+https://www.dataq.or.kr/www/main.do
+
+1번 문제 : 4
+2번 문제 : 2
+3번 문제 : TCL
+4번 문제 : 1, 2
+5번 문제 : SELECT DISTINCT 거주지, 근무지 FROM EXAM1_5;
+6번 문제 : WHERE OR WHERE절
+7번 문제 : 4
+
+SQL 기본 -2
+NULL과의 모든 비교(IS NULL 제외 )는 알수없음을 반환한다.
+A = 10
+A = null X NULL과의 비교는 성립이 안된다.
+A IS NULL 
+A IS NOT NULL 이런식으로 표시한다.
+정렬 시 오라클에서는 NULL은 가장 큰 값이다. 모르는 값이지만 출력시 제일 큰 값으로 측정된다.
+
+1번 문제 : 3번
+2번 문제 : 4
+NULL에 어떠한 값을 연산하면 NULL이 된다.
+직계함수(SUM)를 사용한다면 NULL이 빠진다.
+3번 문제 : 1번
+비교연산자를 사용 할 수 없다.
+4번 문제 : 
+'' = NULL과 같다.
+1 : NULL이나온다.
+2 : IS NULL 은 없다
+3 : 실행결과 2
+4 : IN = COL1 = A OR COL2 = B
+5번 문제 : NULL IF
+NVL
+NVL2
+NULL IF
+6번 문제 : 
+0/300 = 0
+5000/0 = ERROR
+1000/NULL = NULL;
+NULL에 +-x/ 를 하면 NULL이 나온다.
+7번 문제 :
+1 : NVL
+2 : NULLIF
+3 : coalesce  널이 끝나는 지점의 최초의 값을 넣어준다.
+
+SQL기본 -3
+1번 문제 : 1
+1 AND 2 OR 3
+2번문제 : 4
+42000, 42000, 55000, 30000
+3번문제 : 6
+널이 아닌값을 찾아준다.
+C1= 1 C2= 2 C3= 3 SUM = 6
+4번 문제 : 
+10(NULL제외), 20, 20
+직계함수에서 NULL은 제외된다.
+5번 문제 : 
+645,
+IN = 차장이거나 부장이거나 NULL은 제외 15.
+
+
+
